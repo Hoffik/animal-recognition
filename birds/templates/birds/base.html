@@ -1,0 +1,36 @@
+{% load static %} {% comment %}  use staticfiles to serve files from cloud service {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Birds</title>
+        <meta charset="utf-8"> 
+        <!-- Bootstrap -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <!-- Styles -->
+        <link href="{% static 'birds/styles.css' %}" rel="stylesheet" type="text/css">
+
+    </head>
+
+    <body ng-app="{% block ng_app %}birdsApp{% endblock %}">
+
+        <div class="content" ng-controller="{% block ng_controller %} Put controller here {% endblock ng_controller %}">
+
+            <!-- Navigation bar -->
+            {% comment %} <aside style="position:absolute; right:5; top:5px;" role="navigation">
+                <div>User: <a href="{% url 'profile' %}">[[ loggedUser.username ]]</a></div>
+                <div><a href="{% url 'meal-list-view' %}">Meals</a></div>
+                {% if user.is_staff or user.is_manager %}<div><a href="{% url 'user-list-view' %}">Users</a></div>{% endif %}
+                <div><a href="{% url 'logout' %}">Logout</a></div>
+            </aside> {% endcomment %}
+
+            {% block content %}
+                <!-- Put content here -->
+                <strong>No extending content loaded</strong>
+            {% endblock content %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,64 @@
+{% extends 'birds/base.html' %}
+
+{% load static %} {% comment %}  use staticfiles to serve files from cloud service {% endcomment %}
+
+{% block ng_controller %}birdsCtrl{% endblock ng_controller %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+    <p>Record #{{ random_record.id }}</p>
+    <audio controls preload="auto" style="width: 60%; min-width: 240px;">
+        {% with 'audio/'|add:random_record.filename|add:'.mp3' as audio_fullpath %}
+            <source src="{% static audio_fullpath %}" type="audio/mpeg">
+        {% endwith %}
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+<div class="container">
+    <p class="lead">Please select the bird from the recording:</p>
+    <div class="row">
+        <div class="col-sm-4">
+            <form action="{% url 'birds:index' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="record" value="{{ random_record.id }}">
+                <button class="btn" type="submit" name="bird" value="{{ random_record.option_1.id }}" title="Preselected option no. 1">{{ random_record.option_1.name }}</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <form action="{% url 'birds:index' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="record" value="{{ random_record.id }}">
+                <button class="btn" type="submit" name="bird" value="{{ random_record.option_2.id }}" title="Preselected option no. 2">{{ random_record.option_2.name }}</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <form action="{% url 'birds:index' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="record" value="{{ random_record.id }}">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown" title="Other options">
+                        Other
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for bird in other_birds %}
+                            <li><button class="text-button" type="submit" name="bird" value="{{ bird.id }}">{{bird.name}}</button></li>
+                        {% endfor %}
+                        <li class="divider"></li>
+                        {% if random_record.option_1.name != "Other animal" and random_record.option_2.name != "Other animal" %}
+                            <li><button class="text-button" type="submit" name="bird" value="6">Other animal</button></li>
+                        {% endif %}
+                        {% if random_record.option_1.name != "Noise" and random_record.option_2.name != "Noise" %}
+                            <li><button class="text-button" type="submit" name="bird" value="7">Noise</button></li>
+                        {% endif %}
+                        <li class="disabled"><a href="#">None of the above</a></li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

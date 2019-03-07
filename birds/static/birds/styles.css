@@ -1,0 +1,17 @@
+.text-button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    display: block;
+    padding: 3px 20px;
+    width: 100%;
+    text-align: left;
+}
+  
+.text-button:hover {
+    background: #eee;
+}
+
+.col-sm-4 {
+    padding-bottom: 10px;
+}
