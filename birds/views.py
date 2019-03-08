@@ -13,6 +13,7 @@ def index(request):
         selected_recording = get_object_or_404(Recording, pk=request.POST['record'])
         evaluation = Evaluation(recording=selected_recording, bird=selected_bird)
         evaluation.save()
+        return HttpResponseRedirect(request.path_info)
     except:
         pass
     recordings = Recording.objects.filter(has_file=True)
