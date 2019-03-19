@@ -3,7 +3,7 @@ from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .models import Bird, Recording, Evaluation
+from .models import User, Project, Right, Tag, Record, Weight, Identification
 import random
 
 # Application view
