@@ -121,3 +121,6 @@ class Identification(models.Model):
     )
     phase = models.IntegerField()  # Crowdsourcing input iteration. Each crowdsourcing input follows a machine learning iteration.
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user) + '_' + str(self.record) + '_' + str(self.tag)

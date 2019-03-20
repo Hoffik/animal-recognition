@@ -8,4 +8,8 @@ admin.site.register(Right)
 admin.site.register(Tag)
 admin.site.register(Record)
 admin.site.register(Weight)
-admin.site.register(Identification)
+
+class IdentificationAdmin(admin.ModelAdmin):
+    readonly_fields = ('created',)
+
+admin.site.register(Identification, IdentificationAdmin)

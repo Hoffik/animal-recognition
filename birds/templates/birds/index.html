@@ -2,7 +2,7 @@
 
 {% load static %} {% comment %}  use staticfiles to serve files from cloud service {% endcomment %}
 
-{% block ng_controller %}birdsCtrl{% endblock ng_controller %}
+{% comment %} {% block ng_controller %}birdsCtrl{% endblock ng_controller %} {% endcomment %}
 
 {% block content %}
 
@@ -17,20 +17,20 @@
 </div>
 
 <div class="container">
-    <p class="lead">Please select the bird from the recording:</p>
+    <p class="lead">Please select the animal from the record:</p>
     <div class="row">
         <div class="col-sm-4">
             <form action="{% url 'birds:index' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
-                <button class="btn" type="submit" name="bird" value="{{ random_record.option_1.id }}" title="Preselected option no. 1">{{ random_record.option_1.name }}</button>
+                <button class="btn" type="submit" name="tag" value="{{ tags.0.id }}" title="Preselected option no. 1">{{ tags.0.name }}</button>
             </form>
         </div>
         <div class="col-sm-4">
             <form action="{% url 'birds:index' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
-                <button class="btn" type="submit" name="bird" value="{{ random_record.option_2.id }}" title="Preselected option no. 2">{{ random_record.option_2.name }}</button>
+                <button class="btn" type="submit" name="tag" value="{{ tags.1.id }}" title="Preselected option no. 2">{{ tags.1.name }}</button>
             </form>
         </div>
         <div class="col-sm-4">
@@ -43,16 +43,16 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        {% for bird in other_birds %}
-                            <li><button class="text-button" type="submit" name="bird" value="{{ bird.id }}">{{bird.name}}</button></li>
+                        {% for tag in tags|slice:"2:" %}
+                            <li><button class="text-button" type="submit" name="tag" value="{{ tag.id }}">{{ tag.name }}</button></li>
                         {% endfor %}
                         <li class="divider"></li>
-                        {% if random_record.option_1.name != "Other animal" and random_record.option_2.name != "Other animal" %}
+                        {% comment %} {% if random_record.option_1.name != "Other animal" and random_record.option_2.name != "Other animal" %}
                             <li><button class="text-button" type="submit" name="bird" value="6">Other animal</button></li>
                         {% endif %}
                         {% if random_record.option_1.name != "Noise" and random_record.option_2.name != "Noise" %}
                             <li><button class="text-button" type="submit" name="bird" value="7">Noise</button></li>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                         <li class="disabled"><a href="#">None of the above</a></li>
                     </ul>
                 </div>
