@@ -69,7 +69,6 @@ class Record(models.Model):
     """Records of animals in image, audio or video format"""
     filename = models.CharField(max_length=50)
     file_on_server = models.BooleanField()
-    note = models.CharField(max_length=50, default="", null=True, blank=True)
     importance = models.IntegerField(default=1) # Influences probability of record selection. Input for weighted random selection.
     project = models.ForeignKey(
         Project,
@@ -94,8 +93,11 @@ class Weight(models.Model):
     )
     value = models.IntegerField(default=1) # Determines the order of presented tags for selected record.
 
+    class Meta:
+        unique_together = ('record', 'tag',)
+
     def __str__(self):
-        return self.record + '_' + self.tag + '_' + str(self.value)
+        return str(self.record) + '_' + str(self.tag) + '_' + str(self.value)
 
 
 class Identification(models.Model):
