@@ -6,8 +6,12 @@
 
 {% block content %}
 
+{% if message %}
+    {{ message }}
+{% else %}
+    
 <div class="jumbotron text-center">
-    <p>Record #{{ random_record.id }}</p>
+    <p>Record #{{ random_record.id }} from {{ project.name }} project.</p>
     <audio controls preload="auto" style="width: 60%; min-width: 240px;">
         {% with 'audio/'|add:random_record.filename|add:'.mp3' as audio_fullpath %}
             <source src="{% static audio_fullpath %}" type="audio/mpeg">
@@ -60,5 +64,7 @@
         </div>
     </div>
 </div>
+
+{% endif %}
 
 {% endblock content %}
