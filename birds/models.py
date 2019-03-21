@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import validate_slug
+from .validators import KeywordValidator
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
@@ -9,7 +10,7 @@ class User(AbstractUser):
 class Project(models.Model):
     """Animal recognition project"""
     name = models.CharField(max_length=50)
-    directory = models.CharField(max_length=50, validators=[validate_slug], unique=True)
+    directory = models.CharField(max_length=50, validators=[validate_slug, KeywordValidator(keyword_list=["admin", "rest_api"])], unique=True)
     phase = models.IntegerField(default=1, blank=True)  # Crowdsourcing input iteration. Each crowdsourcing input follows a machine learning iteration.
     FILE_TYPE_CHOICES = (
         ('i', 'image'),
