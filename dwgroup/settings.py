@@ -126,3 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Media files (Images, Audio, Video in DB)
+
+MEDIA_ROOT = 'D:/MEGA/Documents/Code/django/dwgroup/birds/media/'
+MEDIA_URL = '/media/'

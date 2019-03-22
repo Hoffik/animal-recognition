@@ -1,11 +1,13 @@
 from django.core.exceptions import ValidationError
+from django.utils.deconstruct import deconstructible
 
-def validate_keywords(keywords):
-    if not ".edu" in value:
-        raise ValidationError("A valid school email must be entered in")
-    else:
-        return value
+# def validate_keywords(keywords):
+#     if not ".edu" in value:
+#         raise ValidationError("A valid school email must be entered in")
+#     else:
+#         return value
 
+@deconstructible
 class KeywordValidator(object):
     keywords = []
     

@@ -63,6 +63,11 @@ class Tag(models.Model):
         on_delete=models.CASCADE
     )
 
+    def tag_images_path(instance, filename):
+        return 'tag_images/' + instance.project.directory + '/' + filename
+
+    image = models.ImageField(upload_to=tag_images_path, null=True, blank=True)
+
     def __str__(self):
         return self.name
 
