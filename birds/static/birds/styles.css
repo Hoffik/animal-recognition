@@ -12,6 +12,47 @@
     background: #eee;
 }
 
-.col-sm-4 {
-    padding-bottom: 10px;
+.cell {
+    padding: 10px 50px 10px 50px;
+    width: 33.33%;
+    width: calc(100% / 3);
+    height: 200px;
+    text-align: center;
+    float: left;
+    /* background-color: mistyrose; */
+}
+
+img.tag {
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 150px;
+    border-radius: 5px;
+}
+
+button.tag {
+    border-radius: 5px;
+    box-shadow: 1px 2px 4px grey;
+}
+
+button.image {
+    border: 0;
+    padding: 0;
+    background: transparent;
+}
+button.basic {
+    border: 0;
+    padding: 0;
+    border-radius: 5px;
+    width: 100%;
+    height: 180px;
+}
+button.dropdown-toggle {
+    border: 0;
+    padding: 0;
+    border-radius: 5px;
+    width: 100%;
+    min-height: 34px;
+}
+.dropdown-menu {
+    min-width: 100%;
 }

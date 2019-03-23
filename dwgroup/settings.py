@@ -129,5 +129,5 @@ STATIC_URL = '/static/'
 
 # Media files (Images, Audio, Video in DB)
 
-MEDIA_ROOT = 'D:/MEGA/Documents/Code/django/dwgroup/birds/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'birds/media/')
 MEDIA_URL = '/media/'

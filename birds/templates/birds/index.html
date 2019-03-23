@@ -23,26 +23,29 @@
 <div class="container">
     <p class="lead">Please select the animal from the record:</p>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="cell">
             <form action="{% url 'birds:index' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
-                <button class="btn" type="submit" name="tag" value="{{ tags.0.id }}" title="Preselected option no. 1">{{ tags.0.name }}</button>
+                <p>{{ tags.0.name }}:</p>
+                <button class="image tag" type="submit" name="tag" value="{{ tags.0.id }}" style="border: 0; background: transparent">
+                    <img src="{{ tags.0.image.url }}" alt="{{ tags.0.image.name }}" class="tag">
+                </button>
             </form>
         </div>
-        <div class="col-sm-4">
+        <div class="cell">
             <form action="{% url 'birds:index' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
-                <button class="btn" type="submit" name="tag" value="{{ tags.1.id }}" title="Preselected option no. 2">{{ tags.1.name }}</button>
+                <button class="basic tag" type="submit" name="tag" value="{{ tags.1.id }}" title="Preselected option no. 2">{{ tags.1.name }}</button>
             </form>
         </div>
-        <div class="col-sm-4">
+        <div class="cell">
             <form action="{% url 'birds:index' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
                 <div class="dropdown">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown" title="Other options">
+                    <button class="tag dropdown-toggle" data-toggle="dropdown" title="Other options">
                         Other
                         <span class="caret"></span>
                     </button>
