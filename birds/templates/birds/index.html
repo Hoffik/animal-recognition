@@ -28,7 +28,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
                 <p>{{ tags.0.name }}:</p>
-                <button class="image tag" type="submit" name="tag" value="{{ tags.0.id }}" style="border: 0; background: transparent">
+                <button class="image tag" type="submit" name="tag" value="{{ tags.0.id }}">
                     <img src="{{ tags.0.image.url }}" alt="{{ tags.0.image.name }}" class="tag">
                 </button>
             </form>
