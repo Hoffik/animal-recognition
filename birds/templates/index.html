@@ -1,4 +1,4 @@
-{% extends 'birds/base.html' %}
+{% extends 'base.html' %}
 
 {% load static %} {% comment %}  use staticfiles to serve files from cloud service {% endcomment %}
 
@@ -24,7 +24,7 @@
     <p class="lead">Please select the animal from the record:</p>
     <div class="row">
         <div class="cell">
-            <form action="{% url 'birds:index' %}" method="post">
+            <form action="{% url 'birds:project' project.directory %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
                 <p>{{ tags.0.name }}:</p>
@@ -34,14 +34,14 @@
             </form>
         </div>
         <div class="cell">
-            <form action="{% url 'birds:index' %}" method="post">
+            <form action="{% url 'birds:project' project.directory %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
                 <button class="basic tag" type="submit" name="tag" value="{{ tags.1.id }}" title="Preselected option no. 2">{{ tags.1.name }}</button>
             </form>
         </div>
         <div class="cell">
-            <form action="{% url 'birds:index' %}" method="post">
+            <form action="{% url 'birds:project' project.directory %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="record" value="{{ random_record.id }}">
                 <div class="dropdown">
