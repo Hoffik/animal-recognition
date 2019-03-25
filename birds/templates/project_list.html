@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block ng_controller %}animalsCtrl{% endblock ng_controller %}
+
+{% block content %}
+
+<h1>Project list</h1>
+
+<!-- Project list -->
+<div class="table-responsive" role="view_list">          
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Directory</th>
+                <th>File type</th>
+                <th># Users</th>
+                <th># Tags</th>
+                <th># Records</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="project in projects | orderBy:['id','name']">
+                <td>[[ project.id ]]</td>
+                <td>[[ project.name ]]</td>
+                <td>[[ project.directory ]]</td>
+                <td>[[ project.file_type ]]</td>
+                <td>[[ project.rights.length ]]</td>
+                <td>[[ project.tags.length ]]</td>
+                <td>[[ project.records.length ]]</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

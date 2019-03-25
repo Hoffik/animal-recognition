@@ -10,12 +10,15 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <!-- Angular -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="{% static 'animalsController.js' %}"></script>
         <!-- Styles -->
-        <link href="{% static 'birds/styles.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'styles.css' %}" rel="stylesheet" type="text/css">
 
     </head>
 
-    <body ng-app="{% block ng_app %}birdsApp{% endblock %}">
+    <body ng-app="{% block ng_app %}animalsApp{% endblock %}">
 
         <div class="content" ng-controller="{% block ng_controller %} Put controller here {% endblock ng_controller %}">
 
