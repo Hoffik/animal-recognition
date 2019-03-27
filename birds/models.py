@@ -50,6 +50,9 @@ class Right(models.Model):
         blank=True
     )
 
+    class Meta:
+        unique_together = ('user', 'project')
+
     def __str__(self):
         return self.user + '_' + self.project + '_' + str(self.role)
 
