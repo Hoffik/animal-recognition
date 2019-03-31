@@ -72,6 +72,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'dwgroup.wsgi.application'
 
 
+# Django REST Framework
+# https://www.django-rest-framework.org
+
+# REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+# }
+
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -87,7 +98,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#substituting-a-custom-user-model
 
 AUTH_USER_MODEL = 'birds.User'
-
+LOGIN_REDIRECT_URL = 'birds:project-list-view'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

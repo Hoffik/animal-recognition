@@ -30,6 +30,10 @@
                 <div><a href="{% url 'logout' %}">Logout</a></div>
             </aside> {% endcomment %}
 
+            <aside style="position:absolute; right:5; top:5px;" role="navigation">
+                <a href="{% url 'birds:logout' %}">Logout</a>
+            </aside>
+
             {% block content %}
                 <!-- Put content here -->
                 <strong>No extending content loaded</strong>

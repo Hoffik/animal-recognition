@@ -1,7 +1,9 @@
 from rest_framework import serializers
-from .models import Identification, Tag, Project
+from .models import User, Project, Right, Tag, Record, Weight, Identification
 
 class IdentificationSerializer(serializers.ModelSerializer):
+    # user = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = Identification
         fields = "__all__"
@@ -29,3 +31,10 @@ class ProjectSerializer(serializers.ModelSerializer):
         identifications = Identification.objects.filter(tag__in=obj.tags.all())
         # comments = Comments.objects.filter(track__album_id=obj.pk)
         return IdentificationSerializer(identifications, many=True).data
+    
+class UserSerializer(serializers.ModelSerializer):
+    identifications = IdentificationSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'identifications')

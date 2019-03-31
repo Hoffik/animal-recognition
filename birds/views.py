@@ -1,16 +1,18 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
-from django.views.generic import TemplateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView, FormView
+from django.contrib.auth import authenticate, login
 
 from rest_framework import generics
 import random
 
 from .models import User, Project, Right, Tag, Record, Weight, Identification
-from .serializers import ProjectSerializer
+from .serializers import UserSerializer, ProjectSerializer, IdentificationSerializer
+from .forms import SignUpForm
 
-# Application view
+# Main page
 def project(request, project_dir):
     try:
         identified_tag = get_object_or_404(Tag, pk=request.POST['tag'])
@@ -49,11 +51,84 @@ def project(request, project_dir):
             }
         return render(request, 'index.html', context)
 
-# Application views here.
+# Application views
 class ProjectListView(TemplateView):    #LoginRequiredMixin, 
     template_name = "project_list.html"
 
+# Authentication views
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('birds:project-list-view')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
 # Rest API views
+class IdentificationMixin(object):
+    """Common configuration for ProjectList and ProjectDetail"""
+    model = Identification
+    raise_exception = True
+    serializer_class = IdentificationSerializer
+    # permission_classes = [CanCRUDMeal]
+
+    # def perform_create(self, serializer):
+    #     """Force meal.user to the current user on save"""
+    #     serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        return Identification.objects.all()
+
+        # """Filter instances in list based on user rights"""
+        # user = self.request.user
+        # if user.is_staff:
+        #     return Meal.objects.all()
+        # elif user.is_manager:
+        #     return Meal.objects.filter(user__is_staff=False)
+        # return Meal.objects.filter(user__id=user.id)
+
+class IdentificationList(IdentificationMixin, generics.ListCreateAPIView):    #LoginRequiredMixin, 
+    pass
+
+class IdentificationDetail(IdentificationMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRequiredMixin, 
+    pass
+    
+
+class UserMixin(object):
+    """Common configuration for ProjectList and ProjectDetail"""
+    model = User
+    raise_exception = True
+    serializer_class = UserSerializer
+    # permission_classes = [CanCRUDMeal]
+
+    # def perform_create(self, serializer):
+    #     """Force meal.user to the current user on save"""
+    #     serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        return User.objects.all()
+
+        # """Filter instances in list based on user rights"""
+        # user = self.request.user
+        # if user.is_staff:
+        #     return Meal.objects.all()
+        # elif user.is_manager:
+        #     return Meal.objects.filter(user__is_staff=False)
+        # return Meal.objects.filter(user__id=user.id)
+
+class UserList(UserMixin, generics.ListCreateAPIView):    #LoginRequiredMixin, 
+    pass
+
+class UserDetail(UserMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRequiredMixin, 
+    pass
+
+
 class ProjectMixin(object):
     """Common configuration for ProjectList and ProjectDetail"""
     model = Project

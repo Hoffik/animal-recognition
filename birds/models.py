@@ -116,7 +116,7 @@ class Identification(models.Model):
         related_name='identifications',
         on_delete=models.CASCADE,
         null=True,  #Temporary until user login implemented
-        blank=True
+        # blank=True
     )
     record = models.ForeignKey(
         Record,

@@ -1,0 +1,18 @@
+{% extends '../base.html' %}
+
+{% block ng_controller %}userDetailCtrl{% endblock ng_controller %}
+
+{% block content %}
+
+<h1>Profile</h1>
+
+<form  class="form-inline">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" ng-model="loggedUser.username">
+    </div>
+    <button ng-click="updateUser(loggedUser)">Update</button>
+</form> 
+
+{% endblock content %}
