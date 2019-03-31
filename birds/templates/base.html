@@ -31,7 +31,8 @@
             </aside> {% endcomment %}
 
             <aside style="position:absolute; right:5; top:5px;" role="navigation">
-                <a href="{% url 'birds:logout' %}">Logout</a>
+                <div>User: <a href="{% url 'birds:profile' %}">[[ loggedUser.username ]]</a></div>
+                <div><a href="{% url 'birds:logout' %}">Logout</a></div>
             </aside>
 
             {% block content %}

@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
@@ -69,6 +69,19 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+def get_logged_user(request):
+    data = {}
+    loggedUser = request.user
+    if loggedUser.is_authenticated:
+        data = {'id': loggedUser.id,
+                'username': loggedUser.username,
+                'is_staff': loggedUser.is_staff,
+            }
+    return JsonResponse(data)
+
+def profile(request):
+    return HttpResponse("Your username is %s." % request.user.username)
 
 # Rest API views
 class IdentificationMixin(object):
