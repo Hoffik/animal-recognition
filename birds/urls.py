@@ -22,7 +22,7 @@ auth_urls = [
     path('signup/', views.signup, name='signup'), #views.SignUp.as_view()
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
-    path('logged_user/', views.get_logged_user, name='logged-user-data'),
+    # path('logged_user/', views.get_logged_user, name='logged-user-data'),
     path('profile/', views.profile, name='profile'),
 ]
 

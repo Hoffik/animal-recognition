@@ -12,15 +12,15 @@ app.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 });
 
-// Global scope variables
-app.run(function($rootScope, $http, ){
-    $rootScope.getLoggedUser = function() {
-        $http.get('/auth/logged_user/').then(function (response) {
-            $rootScope.loggedUser = response.data;
-        });
-    }
-    $rootScope.getLoggedUser();
-})
+// // Global scope variables
+// app.run(function($rootScope, $http, ){
+//     $rootScope.getLoggedUser = function() {
+//         $http.get('/auth/logged_user/').then(function (response) {
+//             $rootScope.loggedUser = response.data;
+//         });
+//     }
+//     $rootScope.getLoggedUser();
+// })
 
 // Common Ctrl functions
 app.factory("AnimalsUtils", function($http, $log) {
@@ -28,9 +28,6 @@ app.factory("AnimalsUtils", function($http, $log) {
     var AnimalsUtils = {
         get: function(url, id) {
             $http.get(url + id + '/').then(function(response){response.data});
-        },
-        getLoggedUser: function() {
-            $http.get('/auth/logged_user/').then(function (response) {response.data});
         },
     };
     return AnimalsUtils;

@@ -59,3 +59,41 @@ button.dropdown-toggle {
     max-height: 166px;
     overflow-x: hidden;
 }
+
+/* Form */
+div.form-container {
+    padding-right: 30px;
+    padding-left: 0px;
+    margin-right: 15%;
+    margin-left: 15%;
+}
+div.form-group {
+    margin-bottom: 15px;
+}
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+input {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+div.help-text {
+    color: grey;
+    font-size: smaller;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+ul {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+p.error-message {
+    color: red;
+}
