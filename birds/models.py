@@ -78,7 +78,10 @@ class Tag(models.Model):
 
 class Record(models.Model):
     """Records of animals in image, audio or video format"""
-    filename = models.CharField(max_length=50)
+    def record_files_path(instance, filename):
+        return 'record_files/' + instance.project.directory + '/' + filename
+
+    file = models.FileField(upload_to=record_files_path, null=True, blank=True)
     file_on_server = models.BooleanField()
     importance = models.IntegerField(default=1) # Influences probability of record selection. Input for weighted random selection.
     project = models.ForeignKey(
@@ -86,11 +89,6 @@ class Record(models.Model):
         related_name='records',
         on_delete=models.CASCADE
     )
-
-    def record_files_path(instance, filename):
-        return 'record_files/' + instance.project.directory + '/' + filename
-
-    file = models.FileField(upload_to=record_files_path, null=True, blank=True)
 
     def __str__(self):
         return self.filename

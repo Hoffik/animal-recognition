@@ -70,16 +70,6 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-# def get_logged_user(request):
-#     data = {}
-#     loggedUser = request.user
-#     if loggedUser.is_authenticated:
-#         data = {'id': loggedUser.id,
-#                 'username': loggedUser.username,
-#                 'is_staff': loggedUser.is_staff,
-#             }
-#     return JsonResponse(data)
-
 def profile(request):
     return HttpResponse("Your username is %s." % request.user.username)
 

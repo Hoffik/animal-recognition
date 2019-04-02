@@ -11,11 +11,9 @@
 {% else %}
     
 <div class="jumbotron text-center">
-    <p>Record #{{ random_record.id }} from {{ project.name }} project.</p>
+    <p>Record #{{ random_record.id }} from {{ project.name }} project. {{ random_record.file.url }}</p>
     <audio controls preload="auto" style="width: 60%; min-width: 240px;">
-        {% with 'audio/'|add:random_record.filename|add:'.mp3' as audio_fullpath %}
-            <source src="{% static audio_fullpath %}" type="audio/mpeg">
-        {% endwith %}
+        <source src="{{ random_record.file.url }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 </div>
