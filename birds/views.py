@@ -18,7 +18,7 @@ def project(request, project_dir):
         identified_tag = get_object_or_404(Tag, pk=request.POST['tag'])
         current_record = get_object_or_404(Record, pk=request.POST['record'])
         project_phase = current_record.project.phase
-        identification = Identification(record=current_record, tag=identified_tag, phase=project_phase)
+        identification = Identification(record=current_record, tag=identified_tag, phase=project_phase, user=request.user)
         identification.save()
         return HttpResponseRedirect(request.path_info)
     except:
@@ -81,9 +81,9 @@ class IdentificationMixin(object):
     serializer_class = IdentificationSerializer
     # permission_classes = [CanCRUDMeal]
 
-    # def perform_create(self, serializer):
-    #     """Force meal.user to the current user on save"""
-    #     serializer.save(user=self.request.user)
+    def perform_create(self, serializer):
+        """Force identification.user to the current user on save"""
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         return Identification.objects.all()

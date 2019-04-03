@@ -2,11 +2,11 @@ from rest_framework import serializers
 from .models import User, Project, Right, Tag, Record, Weight, Identification
 
 class IdentificationSerializer(serializers.ModelSerializer):
-    # user = serializers.ReadOnlyField(source='user.username')
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Identification
-        fields = "__all__"
+        fields = ('id', 'user', 'record', 'tag', 'phase', 'created')
 
 class TagSerializer(serializers.ModelSerializer):
     """Serializer to map the Tag model instance for view."""

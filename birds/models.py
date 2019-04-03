@@ -33,8 +33,6 @@ class Right(models.Model):
         User,
         related_name='rights',
         on_delete=models.CASCADE,
-        null=True,  # Temporary until user login implemented
-        blank=True
     )
     project = models.ForeignKey(
         Project,
@@ -56,7 +54,7 @@ class Right(models.Model):
         unique_together = ('user', 'project')
 
     def __str__(self):
-        return self.user + '_' + self.project + '_' + str(self.role)
+        return str(self.user) + '_' + str(self.project) + '_' + str(self.role)
 
 class Tag(models.Model):
     """Choices (most often animal species names or 'noice') for each recording"""
@@ -91,7 +89,7 @@ class Record(models.Model):
     )
 
     def __str__(self):
-        return self.filename
+        return "File: " + os.path.basename(str(self.file.name))
 
 class Weight(models.Model):
     """Record weights for each tag. If no weight for a Tag is available, prior is used."""
@@ -120,7 +118,7 @@ class Identification(models.Model):
         User,
         related_name='identifications',
         on_delete=models.CASCADE,
-        null=True,  #Temporary until user login implemented
+        # null=True,  #Temporary until user login implemented
         # blank=True
     )
     record = models.ForeignKey(
