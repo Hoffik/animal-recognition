@@ -1,61 +1,123 @@
-.text-button {
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-    display: block;
-    padding: 3px 20px;
-    width: 100%;
-    text-align: left;
-}
-  
-.text-button:hover {
-    background: #eee;
+/* Tag */
+div.tag-container {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: 15%;
+  margin-left: 15%;
 }
 
-.cell {
-    padding: 10px 50px 10px 50px;
-    width: 33.33%;
-    width: calc(100% / 3);
-    height: 220px;
-    text-align: center;
-    float: left;
-    /* background-color: mistyrose; */
+div.tag-container div.row div.cell {
+  padding: 10px 50px 10px 50px;
+  width: 33.33%;
+  width: calc(100% / 3);
+  height: 220px;
+  text-align: center;
+  float: left;
 }
 
-img.tag {
-    vertical-align: middle;
-    max-width: 100%;
-    max-height: 170px;
-    border-radius: 5px;
+div.tag-container div.row div.cell button.tag {
+  border-radius: 5px;
+  -webkit-box-shadow: 1px 2px 4px grey;
+          box-shadow: 1px 2px 4px grey;
 }
 
-button.tag {
-    border-radius: 5px;
-    box-shadow: 1px 2px 4px grey;
+div.tag-container div.row div.cell img.tag {
+  vertical-align: middle;
+  max-width: 100%;
+  max-height: 170px;
+  border-radius: 5px;
 }
 
-button.image {
-    border: 0;
-    padding: 0;
-    background: transparent;
+div.tag-container div.row div.cell button.image {
+  border: 0;
+  padding: 0;
+  background: transparent;
 }
-button.basic {
-    border: 0;
-    padding: 0;
-    border-radius: 5px;
-    width: 100%;
-    height: 200px;
+
+div.tag-container div.row div.cell button.basic {
+  border: 0;
+  padding: 0;
+  border-radius: 5px;
+  width: 100%;
+  height: 200px;
 }
-button.dropdown-toggle {
-    border: 0;
-    padding: 0;
-    border-radius: 5px;
-    width: 100%;
-    min-height: 34px;
+
+div.tag-container div.row div.cell button.dropdown-toggle {
+  border: 0;
+  padding: 0;
+  border-radius: 5px;
+  width: 100%;
+  min-height: 34px;
 }
-.dropdown-menu {
-    min-width: 100%;
-    height: auto;
-    max-height: 166px;
-    overflow-x: hidden;
+
+div.tag-container div.row div.cell ul.dropdown-menu {
+  min-width: 100%;
+  height: auto;
+  max-height: 166px;
+  overflow-x: hidden;
 }
+
+div.tag-container div.row div.cell button.dropdown-choice {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  display: block;
+  padding: 3px 20px;
+  width: 100%;
+  text-align: left;
+}
+
+div.tag-container div.row div.cell button.dropdown-choice:hover {
+  background: #eee;
+}
+
+/* Form */
+div.form-container {
+  padding-right: 30px;
+  padding-left: 0px;
+  margin-right: 15%;
+  margin-left: 15%;
+}
+
+div.form-container form div.form-group {
+  margin-bottom: 15px;
+}
+
+div.form-container form label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+div.form-container form input {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+div.form-container form div.help-text {
+  color: grey;
+  font-size: smaller;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+div.form-container form ul {
+  padding: 0px;
+  margin: 0px;
+  list-style-type: none;
+}
+
+div.form-container form p.error-message {
+  color: red;
+}
+
+div.form-container form button {
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+/*# sourceMappingURL=styles.css.map */

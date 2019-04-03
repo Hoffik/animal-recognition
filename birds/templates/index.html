@@ -11,16 +11,14 @@
 {% else %}
     
 <div class="jumbotron text-center">
-    <p>Record #{{ random_record.id }} from {{ project.name }} project.</p>
+    <p>Record #{{ random_record.id }} from {{ project.name }} project. {{ random_record.file.url }}</p>
     <audio controls preload="auto" style="width: 60%; min-width: 240px;">
-        {% with 'audio/'|add:random_record.filename|add:'.mp3' as audio_fullpath %}
-            <source src="{% static audio_fullpath %}" type="audio/mpeg">
-        {% endwith %}
+        <source src="{{ random_record.file.url }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 </div>
 
-<div class="container">
+<div class="tag-container">
     <p class="lead">Please select the animal from the record:</p>
     <div class="row">
         <div class="cell">
@@ -51,14 +49,14 @@
                     </button>
                     <ul class="dropdown-menu">
                         {% for tag in tags|slice:"2:" %}
-                            <li><button class="text-button" type="submit" name="tag" value="{{ tag.id }}">{{ tag.name }}</button></li>
+                            <li><button class="dropdown-choice" type="submit" name="tag" value="{{ tag.id }}">{{ tag.name }}</button></li>
                         {% endfor %}
                         <li class="divider"></li>
                         {% comment %} {% if random_record.option_1.name != "Other animal" and random_record.option_2.name != "Other animal" %}
-                            <li><button class="text-button" type="submit" name="bird" value="6">Other animal</button></li>
+                            <li><button class="dropdown-choice" type="submit" name="bird" value="6">Other animal</button></li>
                         {% endif %}
                         {% if random_record.option_1.name != "Noise" and random_record.option_2.name != "Noise" %}
-                            <li><button class="text-button" type="submit" name="bird" value="7">Noise</button></li>
+                            <li><button class="dropdown-choice" type="submit" name="bird" value="7">Noise</button></li>
                         {% endif %} {% endcomment %}
                         <li class="disabled"><a href="#">None of the above</a></li>
                     </ul>
