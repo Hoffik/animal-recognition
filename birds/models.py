@@ -54,7 +54,7 @@ class Right(models.Model):
         unique_together = ('user', 'project')
 
     def __str__(self):
-        return str(self.user) + '_' + str(self.project) + '_' + str(self.role)
+        return str(self.project) + '_' + str(self.user) + '_' + str(self.get_role_display())
 
 class Tag(models.Model):
     """Choices (most often animal species names or 'noice') for each recording"""
@@ -137,23 +137,23 @@ class Identification(models.Model):
     def __str__(self):
         return str(self.user) + '_' + str(self.record) + '_' + str(self.tag)
 
-@receiver(models.signals.post_delete, sender=Record)
+@receiver(models.signals.post_delete, sender=Tag)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """
     Deletes file from filesystem
     when corresponding `MediaFile` object is deleted.
     """
-    if instance.file:
-        if os.path.isfile(instance.file.path):
-            os.remove(instance.file.path)
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
 
-@receiver(models.signals.pre_save, sender=Record)
+@receiver(models.signals.pre_save, sender=Tag)
 def auto_delete_file_on_change(sender, instance, **kwargs):
     """
     Deletes old file from filesystem
     when corresponding `MediaFile` object is updated
     with new file.
     """
-    if instance.file:
-        if os.path.isfile(instance.file.path):
-            os.remove(instance.file.path)
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)

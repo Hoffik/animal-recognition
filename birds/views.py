@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from rest_framework import generics
 import random
@@ -11,6 +12,7 @@ import random
 from .models import User, Project, Right, Tag, Record, Weight, Identification
 from .serializers import UserSerializer, ProjectSerializer, IdentificationSerializer
 from .forms import SignUpForm
+from .permissions import IsProjectOwner
 
 # Main page
 def project(request, project_dir):
@@ -137,7 +139,7 @@ class ProjectMixin(object):
     model = Project
     raise_exception = True
     serializer_class = ProjectSerializer
-    # permission_classes = [CanCRUDMeal]
+    permission_classes = [IsProjectOwner]
 
     # def perform_create(self, serializer):
     #     """Force meal.user to the current user on save"""
@@ -154,10 +156,10 @@ class ProjectMixin(object):
         #     return Meal.objects.filter(user__is_staff=False)
         # return Meal.objects.filter(user__id=user.id)
 
-class ProjectList(ProjectMixin, generics.ListCreateAPIView):    #LoginRequiredMixin, 
+class ProjectList(ProjectMixin, generics.ListAPIView):
     pass
 
-class ProjectDetail(ProjectMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRequiredMixin, 
+class ProjectDetail(LoginRequiredMixin, ProjectMixin, generics.RetrieveUpdateDestroyAPIView):
     pass
 
 

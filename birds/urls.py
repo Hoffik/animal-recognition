@@ -39,6 +39,6 @@ rest_urls = [
 # Views index
 urlpatterns = [
     path('', include(apps_urls)),
-    path('auth/', include(auth_urls)),
+    path('accounts/', include(auth_urls)),
     path('rest_api/', include(rest_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
