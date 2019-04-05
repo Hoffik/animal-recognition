@@ -47,13 +47,13 @@ app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) {
 
 app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) { 
 
-    $scope.getProject = function() {
+    $scope.getProject = function(id) {
         $http.get('/rest_api/projects/' + id + '/').then(function(response) {
             $scope.project = response.data;
         });
     };
 
-    $scope.getProject();
+    // $scope.getProject($scope.project_id);
 
     // get: function(url, id) {
     //     $http.get(url + id + '/').then(function(response){response.data});

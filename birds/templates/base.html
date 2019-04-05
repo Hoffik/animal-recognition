@@ -20,22 +20,20 @@
 
     <body ng-app="{% block ng_app %}animalsApp{% endblock %}">
 
-        <div class="content" ng-controller="{% block ng_controller %}{% endblock ng_controller %}">
+        <aside style="position:absolute; right:5px; top:5px;" role="navigation">
+            {% if user.username %}
+                <div>Hi <a href="{% url 'birds:profile' %}">{{user.username}}</a></div>
+                <div><a href="{% url 'birds:logout' %}">Logout</a></div>
+            {% else %}
+                <div><a href="{% url 'birds:login' %}">Login</a></div>
+                <div><a href="{% url 'birds:signup' %}">Sign up</a></div>
+            {% endif %}
+        </aside>
 
-            <aside style="position:absolute; right:5px; top:5px;" role="navigation">
-                {% if user.username %}
-                    <div>Hi <a href="{% url 'birds:profile' %}">{{user.username}}</a></div>
-                    <div><a href="{% url 'birds:logout' %}">Logout</a></div>
-                {% else %}
-                    <div><a href="{% url 'birds:login' %}">Login</a></div>
-                    <div><a href="{% url 'birds:signup' %}">Sign up</a></div>
-                {% endif %}
-            </aside>
+        {% block content %}
+            <!-- Put content here -->
+            <strong>No external content loaded</strong>
+        {% endblock content %}
 
-            {% block content %}
-                <!-- Put content here -->
-                <strong>No extending content loaded</strong>
-            {% endblock content %}
-        </div>
     </body>
 </html>

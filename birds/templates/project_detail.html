@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 
-{% block ng_controller %}ProjectDetailCtrl{% endblock ng_controller %}
-
 {% block content %}
 
-<h1>[[ project.name ]]</h1>
+<div ng-controller="ProjectDetailCtrl" ng-init="getProject({{ project_id }})" ng-cloak>
 
-{{ project_id }}
+        <h1>[[ project.name ]]</h1>
+            Div: [[ project_id ]]
+            <a href="[[ project.directory ]]">[[ project.name ]]</a><br>
+        [[ project.file_type ]]<br>
+        [[ project.rights.length ]]<br>
+        [[ project.tags.length ]]<br>
+        [[ project.records.length ]]<br>
+        [[ project.identifications.length ]]<br> 
+
+</div>
+
+
+{% comment %} {{ project_id }} {% endcomment %}
+
+{% comment %} <div ng-init="project_id='{{ project_id }}'" > {% endcomment %}
+
 
 <!-- Project list -->
 {% comment %} <div class="table-responsive" role="view_list">          
