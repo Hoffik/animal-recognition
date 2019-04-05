@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
-{% block ng_controller %}ProjectListCtrl{% endblock ng_controller %}
+{% block ng_controller %}ProjectDetailCtrl{% endblock ng_controller %}
 
 {% block content %}
 
-<h1>Project list</h1>
+<h1>[[ project.name ]]</h1>
+
+{{ project_id }}
 
 <!-- Project list -->
-<div class="table-responsive" role="view_list">          
+{% comment %} <div class="table-responsive" role="view_list">          
     <table class="table">
         <thead>
             <tr>
-                {% comment %} <th>ID</th> {% endcomment %}
                 <th>Name</th>
-                {% comment %} <th>Directory</th> {% endcomment %}
                 <th>File type</th>
                 <th># Users</th>
                 <th># Tags</th>
@@ -23,9 +23,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="project in projects | orderBy:['id','name']">
-                {% comment %} <td>[[ project.id ]]</td> {% endcomment %}
                 <td><a href="[[ project.directory ]]">[[ project.name ]]</a></td>
-                {% comment %} <td>[[ project.directory ]]</td> {% endcomment %}
                 <td>[[ project.file_type ]]</td>
                 <td>[[ project.rights.length ]]</td>
                 <td>[[ project.tags.length ]]</td>
@@ -34,6 +32,6 @@
             </tr>
         </tbody>
     </table>
-</div>
+</div> {% endcomment %}
 
 {% endblock content %}

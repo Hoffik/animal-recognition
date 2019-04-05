@@ -54,8 +54,11 @@ def project(request, project_dir):
         return render(request, 'index.html', context)
 
 # Application views
-class ProjectListView(TemplateView):    #LoginRequiredMixin, 
+class ProjectListView(TemplateView):
     template_name = "project_list.html"
+
+class ProjectDetailView(LoginRequiredMixin, TemplateView):
+    template_name = "project_detail.html"
 
 # Authentication views
 def signup(request):

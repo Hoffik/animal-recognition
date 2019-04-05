@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 
 from .views import UserList, ProjectList, IdentificationList
 from .views import UserDetail, ProjectDetail, IdentificationDetail
-from .views import ProjectListView
+from .views import ProjectListView, ProjectDetailView
 from . import views
 
 app_name = 'birds'
@@ -14,7 +14,9 @@ app_name = 'birds'
 # Apps views
 apps_urls = [
     path('', ProjectListView.as_view(), name='project-list-view'),
+    path('projects/<int:project_id>/', ProjectDetailView.as_view(), name='project-detail-view'),
     path('<slug:project_dir>/', views.project, name='project'),
+
 ]
 
 # Authentication views
