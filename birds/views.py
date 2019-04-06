@@ -10,7 +10,7 @@ from rest_framework import generics
 import random
 
 from .models import User, Project, Right, Tag, Record, Weight, Identification
-from .serializers import UserSerializer, ProjectSerializer, IdentificationSerializer
+from .serializers import UserSerializer, ProjectSerializer, RightSerializer, IdentificationSerializer
 from .forms import SignUpForm
 from .permissions import IsProjectOwner
 
@@ -134,6 +134,22 @@ class UserList(UserMixin, generics.ListCreateAPIView):    #LoginRequiredMixin,
     pass
 
 class UserDetail(UserMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRequiredMixin, 
+    pass
+
+
+class RightMixin(object):
+    model = Right
+    raise_exception = True
+    serializer_class = RightSerializer
+    # permission_classes = [CanCRUDMeal]
+
+    def get_queryset(self):
+        return Right.objects.all()
+
+class RightList(RightMixin, generics.ListCreateAPIView):    #LoginRequiredMixin, 
+    pass
+
+class RightDetail(RightMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRequiredMixin, 
     pass
 
 

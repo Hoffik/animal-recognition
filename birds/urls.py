@@ -4,8 +4,8 @@ from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
-from .views import UserList, ProjectList, IdentificationList
-from .views import UserDetail, ProjectDetail, IdentificationDetail
+from .views import UserList, ProjectList, RightList, IdentificationList
+from .views import UserDetail, ProjectDetail, RightDetail, IdentificationDetail
 from .views import ProjectListView, ProjectDetailView
 from . import views
 
@@ -34,6 +34,8 @@ rest_urls = [
     path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
     path('projects/', ProjectList.as_view(), name='project-list'),
     path('projects/<int:pk>/', ProjectDetail.as_view(), name='project-detail'),
+    path('rights/', RightList.as_view(), name='right-list'),
+    path('rights/<int:pk>/', RightDetail.as_view(), name='right-detail'),
     path('identifications/', IdentificationList.as_view(), name='identification-list'),
     path('identifications/<int:pk>/', IdentificationDetail.as_view(), name='identification-detail'),
 ]
