@@ -39,11 +39,18 @@ class Right(models.Model):
         related_name='rights',
         on_delete=models.CASCADE
     )
-    ROLE_CHOICES = (
-        (0, 'owner'),
-        (1, 'expert'),
-        (2, 'layman'),
+    ROLE_VALUES = (0, 1, 2)
+    ROLE_NAMES = (
+        'owner',
+        'expert',
+        'layman',
     )
+    ROLE_CHOICES = tuple(zip(ROLE_VALUES, ROLE_NAMES))
+    # ROLE_CHOICES = (
+    #     (0, 'owner'),
+    #     (1, 'expert'),
+    #     (2, 'layman'),
+    # )
     role = models.IntegerField(
         choices=ROLE_CHOICES,
         default=2,

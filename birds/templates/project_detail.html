@@ -4,7 +4,7 @@
 
 <div ng-controller="ProjectDetailCtrl" ng-init="getProject({{ project_id }})" ng-cloak class="form-container">
 
-<div class="col-sm-offset-2 col-sm-10"><h1>[[ project.name ]]</h1></div>
+<h1>[[ project.name ]]</h1>
 
 <form class="form-horizontal">
     {% csrf_token %}
@@ -36,25 +36,25 @@
     <div class="form-group">
         <label class="control-label col-sm-2"># Tags:</label>
         <div class="col-sm-10"> 
-            <div style="padding: 6px 12px;">[[ project.tags.length ]]</div>
+            <div style="padding: 6px 12px;">[[ project.tag_count ]]</div>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-sm-2"># Records:</label>
         <div class="col-sm-10"> 
-            <div style="padding: 6px 12px;">[[ project.records.length ]]</div>
+            <div style="padding: 6px 12px;">[[ project.record_count ]]</div>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-sm-2"># Identifications:</label>
         <div class="col-sm-10"> 
-            <div style="padding: 6px 12px;">[[ project.identifications.length ]]</div>
+            <div style="padding: 6px 12px;">[[ project.identification_count ]]</div>
         </div>
     </div>
     <div class="form-group"> 
         <div class="col-sm-offset-2 col-sm-10">
             {% comment %} <button type="submit" class="btn btn-default">Update</button> {% endcomment %}
-            <button ng-click="updateMeal(meal)">Update</button>
+            <button ng-click="updateProject(project)">Update</button>
         </div>
     </div>
 </form>
@@ -65,41 +65,37 @@
     <table class="table">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Calories</th>
-                {% if user.is_staff or user.is_manager %}<th>User</th>{% endif %}
+                <th>Username:</th>
+                <th>Email:</th>
+                <th># Identifications</th>
+                <th>Rights</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
+        <tbody>           
+            <tr ng-repeat="right in project.rights | orderBy:['role','-name']">
                 <form>
                     {% csrf_token %}
-                    <td></td>
-                    <td><input type="text" name="text" placeholder="Required" ng-model="currentMeal.text"></td>
-                    <td><input type="text" name="date" placeholder="Today()" ng-model="currentMeal.date"></td>
-                    <td><input type="text" name="time" placeholder="Now()" ng-model="currentMeal.time"></td>
-                    <td><input type="number" name="calories" placeholder="0" ng-model="currentMeal.calories"></td>
-                    {% if user.is_staff or user.is_manager %}<td></td>{% endif %}
-                    <td><button ng-click="saveMeal()">Add new</button></td>
-                    <td></td>
-                </form>
-            </tr>             
-            <tr ng-repeat="meal in meals | orderBy:['-date','-time'] | dateRangeFilter:dateFrom:dateTo | timeRangeFilter:timeFrom:timeTo" class="[[ todayCalories ]]">
-                <form>
-                    {% csrf_token %}
-                    <td>[[ $index ]]</td>
-                    <td><input type="text" name="text" ng-model="meal.text"></td>
-                    <td><input type="text" name="date" ng-model="meal.date"></td>
-                    <td><input type="text" name="time" ng-model="meal.time"></td>
-                    <td><input type="number" name="calories" ng-model="meal.calories"></td>
-                    {% if user.is_staff or user.is_manager %}<td>[[ meal.user ]]</td>{% endif %}
-                    <td><button ng-click="updateMeal(meal)">Update</button></td>
-                    <td><button ng-click="deleteMeal(meal)">Delete</button></td>
+                    <td>[[ right.user ]]</td>
+                    <td>[[ right.email ]]</td>
+                    <td>[[ right.identification_count ]]</td>
+
+                    {% comment %} <div class="dropdown">
+                        <button class="tag dropdown-toggle" data-toggle="dropdown" title="User role">
+                            [[ right.role_name ]]
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="role_choice in project.role_choices">
+                                <button class="dropdown-choice" ng-model="right.role">{{ tag.name }}</button>
+                            </li>
+                        </ul>
+                    </div> {% endcomment %}
+                    <td><select ng-model="right.role_name" ng-options="role_name for role_name in project.role_names"></select></td>
+                    {% comment %} <td><input type="text" name="role" ng-model="right.role_name" ng-value="1"></td> {% endcomment %}
+                    <td><button ng-click="updateRight(right)">Update</button></td>
+                    <td><button ng-click="deleteRight(right)">Remove</button></td>
                 </form>
             </tr>
 
@@ -110,3 +106,4 @@
 </div>
 
 {% endblock content %}
+

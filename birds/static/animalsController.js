@@ -53,42 +53,57 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
         });
     };
 
+    // updateProject(project)
+
+
+    // addRight(right)
+
+
+    // updateRight(right)
+    $scope.updateRight = function(right) {
+        // $log.log("ID: " + right.id + " role: " + right.role + " " + right.role_name);
+        right.role = $scope.project.role_names.indexOf(right.role_name);
+        // $log.log("ID: " + right.id + " role: " + right.role + " " + right.role_name);
+        var data = $.param({
+            // "id": 1,
+            // "user": "bert",
+            // "email": "bert@sesamestreet.com",
+            // "project": 1,
+            // "identification_count": 2,
+            "role": right.role,
+            // "role_name": right.role_name
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.put('/rest_api/rights/' + right.id + '/', data, config).then(function(response, status, headers, config) {
+            angular.extend(right, response);
+        }, function(response, status, headers, config) {
+            $log.log("Method updateRight error " + response.status);
+            //handleErrors(response, status, errors);
+        }).then(function() {
+            $log.log("then function " + right.role + " " + right.project);
+            $scope.getProject(right.project);
+        });
+    };
+
+    // deleteRight(right)
+
+    
+
     // $scope.getProject($scope.project_id);
 
     // get: function(url, id) {
     //     $http.get(url + id + '/').then(function(response){response.data});
     // },
-    // update: function(url, obj, errors) {
-    //     //$log.log(obj.text + " " + obj.date_time + " " + obj.calories + " " + obj.user);
-    //     var data = $.param({
-    //         text: obj.text,
-    //         date: obj.date,
-    //         time: obj.time,
-    //         calories: obj.calories,
-    //         user: obj.user
-    //     });
-    //     var config = {
-    //         headers : {
-    //             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-    //         }
-    //     }
-    //     return $http.put(url + obj.id + '/', data, config).
-    //     then(function(response, status, headers, config) {
-    //         angular.extend(obj, response);
-    //     }, function(response, status, headers, config) {
-    //         $log.log("MealUtils update error " + response.status);
-    //         //handleErrors(response, status, errors);
-    //     });
-    // },
+    
     // del: function(url, obj) {
     //     return $http.delete(url + obj.id + '/');
     // }
 
-    // $scope.updateMeal = function(meal) {
-    //     MealUtils.update('/meals/', meal, $scope.errors).then(function() {
-    //         $scope.loadMeals();
-    //     });
-    // };
+    
 
     // $scope.deleteMeal = function(meal) {
     //     MealUtils.del('/meals/', meal).then(function() {

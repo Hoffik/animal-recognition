@@ -16,15 +16,16 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'prior', 'project', 'image', 'identifications')
 
 class RightSerializer(serializers.ModelSerializer):
-    project = serializers.ReadOnlyField(source='project.name')
+    project = serializers.ReadOnlyField(source='project.id')
     user = serializers.ReadOnlyField(source='user.username')
     email = serializers.ReadOnlyField(source='user.email')
     identification_count = serializers.SerializerMethodField()
-    role = serializers.CharField(source='get_role_display')
+    role_name = serializers.CharField(source='get_role_display', required=False)
+    # role_choices = serializers.SerializerMethodField()
 
     class Meta:
         model = Right
-        fields = ('id', 'user', 'email', 'project', 'identification_count', 'role')
+        fields = ('id', 'user', 'email', 'project', 'identification_count', 'role', 'role_name')
 
     def get_identifications(self, obj):
         identifications = Identification.objects.filter(user=obj.user, tag__project=obj.project)
@@ -33,10 +34,15 @@ class RightSerializer(serializers.ModelSerializer):
     def get_identification_count(self, obj):
         return Identification.objects.filter(user=obj.user, tag__project=obj.project).count()
 
+    def get_role_choices(self, obj):
+        return Right.ROLE_CHOICES
+
 class ProjectSerializer(serializers.ModelSerializer):
     """Serializer to map the Project model instance for view."""
     file_type = serializers.CharField(source='get_file_type_display')
     rights = RightSerializer(many=True, read_only=True)
+    role_names = serializers.SerializerMethodField()
+    role_choices = serializers.SerializerMethodField()
     tag_count = serializers.SerializerMethodField()
     record_count = serializers.SerializerMethodField()
     record_with_file_count = serializers.SerializerMethodField()
@@ -45,7 +51,13 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map Project serializer's fields with the model fields."""
         model = Project
-        fields = ('id', 'name', 'directory', 'file_type', 'rights', 'tag_count', 'record_count', 'record_with_file_count', 'identification_count')
+        fields = ('id', 'name', 'directory', 'file_type', 'rights', 'role_names', 'role_choices', 'tag_count', 'record_count', 'record_with_file_count', 'identification_count')
+
+    def get_role_names(self, obj):
+        return Right.ROLE_NAMES
+
+    def get_role_choices(self, obj):
+        return Right.ROLE_CHOICES
 
     def get_tag_count(self, obj):
         return Tag.objects.filter(project=obj).count()
