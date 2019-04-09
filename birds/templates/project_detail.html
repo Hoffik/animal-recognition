@@ -68,16 +68,27 @@
                 <th>Username:</th>
                 <th>Email:</th>
                 <th># Identifications</th>
-                <th>Rights</th>
+                <th>Role</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
-        <tbody>           
+        <tbody>
+            <tr>
+                <form>
+                    {% csrf_token %}
+                    <td><select ng-model="new_user" ng-options="user_wo_rights.username for user_wo_rights in project.users_wo_rights"></select></td>
+                    <td><select ng-model="new_user" ng-options="user_wo_rights.email for user_wo_rights in project.users_wo_rights"></select></td>
+                    <td></td>
+                    <td><select ng-model="new_user_role" ng-options="role_name for role_name in project.role_names"></select></td>
+                    <td></td>
+                    <td><button ng-click="addRight()">Add</button></td>
+                </form>
+            </tr> 
             <tr ng-repeat="right in project.rights | orderBy:['role','-name']">
                 <form>
                     {% csrf_token %}
-                    <td>[[ right.user ]]</td>
+                    <td>[[ right.username ]]</td>
                     <td>[[ right.email ]]</td>
                     <td>[[ right.identification_count ]]</td>
 

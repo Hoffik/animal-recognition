@@ -50,20 +50,43 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
     $scope.getProject = function(id) {
         $http.get('/rest_api/projects/' + id + '/').then(function(response) {
             $scope.project = response.data;
+            $scope.new_user_role = "layman";
         });
     };
 
     // updateProject(project)
 
 
-    // addRight(right)
-
+    $scope.addRight = function() {
+        $log.log("ADD - ID: " + $scope.new_user.id + " name: " + $scope.new_user.username + " " + $scope.new_user.email);
+        var data = $.param({
+            project: $scope.project.id,
+            user: $scope.new_user.id,
+            role: $scope.project.role_names.indexOf($scope.new_user_role),
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.post('/rest_api/rights/', data, config).then(function(response) {
+            angular.extend( $scope.new_user, response);
+        }, function(response) {
+            $log.log("UserUtils create error " + response.status);
+            //handleErrors(response, status, errors);
+        }).then(function() {
+            $scope.getProject($scope.project.id);
+        });
+    };
 
     $scope.updateRight = function(right) {
-        // $log.log("ID: " + right.id + " role: " + right.role + " " + right.role_name);
+        $log.log("ID: " + right.id + " role: " + right.role + " user: " + right.user);
         right.role = $scope.project.role_names.indexOf(right.role_name);
+        $log.log("ID: " + right.id + " role: " + right.role + " " + right.role_name);
         var data = $.param({
-            "role": right.role,
+            project: $scope.project.id,
+            user: right.user,
+            role: right.role,
             // "role_name": right.role_name
         });
         var config = {
@@ -95,16 +118,6 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
     // get: function(url, id) {
     //     $http.get(url + id + '/').then(function(response){response.data});
     // },
-    
-    // del: function(url, obj) {
-    //     return $http.delete(url + obj.id + '/');
-    // }
 
     
-
-    // $scope.deleteMeal = function(meal) {
-    //     MealUtils.del('/meals/', meal).then(function() {
-    //         $scope.loadMeals();
-    //     });
-    // };
 });
