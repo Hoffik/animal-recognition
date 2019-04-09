@@ -59,17 +59,10 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
     // addRight(right)
 
 
-    // updateRight(right)
     $scope.updateRight = function(right) {
         // $log.log("ID: " + right.id + " role: " + right.role + " " + right.role_name);
         right.role = $scope.project.role_names.indexOf(right.role_name);
-        // $log.log("ID: " + right.id + " role: " + right.role + " " + right.role_name);
         var data = $.param({
-            // "id": 1,
-            // "user": "bert",
-            // "email": "bert@sesamestreet.com",
-            // "project": 1,
-            // "identification_count": 2,
             "role": right.role,
             // "role_name": right.role_name
         });
@@ -78,9 +71,9 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
                 'Content-Type': 'application/x-www-form-urlencoded;'
             }
         }
-        return $http.put('/rest_api/rights/' + right.id + '/', data, config).then(function(response, status, headers, config) {
+        return $http.put('/rest_api/rights/' + right.id + '/', data, config).then(function(response) {
             angular.extend(right, response);
-        }, function(response, status, headers, config) {
+        }, function(response) {
             $log.log("Method updateRight error " + response.status);
             //handleErrors(response, status, errors);
         }).then(function() {
@@ -89,10 +82,14 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
         });
     };
 
-    // deleteRight(right)
-
+    $scope.deleteRight = function(right) {
+        $log.log("DELETE - ID: " + right.id + " role: " + right.role + " " + right.role_name);
+        return $http.delete('/rest_api/rights/' + right.id + '/').then(function() {
+            $log.log("then function " + right.role + " " + right.project);
+            $scope.getProject(right.project);
+        });
+    };
     
-
     // $scope.getProject($scope.project_id);
 
     // get: function(url, id) {
