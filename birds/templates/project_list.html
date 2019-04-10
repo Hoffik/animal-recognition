@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div ng-controller="ProjectListCtrl" ng-cloak>
+<div ng-controller="ProjectListCtrl" ng-init="user='{{user}}'" ng-cloak>
 
     <h1>Project list</h1>
 
@@ -21,15 +21,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="project in projects | orderBy:['id','name']">
+                <tr ng-repeat="project in projects | orderBy:['id']">
                     {% comment %} <td>[[ project.id ]]</td> {% endcomment %}
-                    <td><a href="[[ project.directory ]]">[[ project.name ]]</a></td>
+                    <td>
+                        <a href="[[ project.directory ]]">[[ project.name ]]</a>
+                        <a ng-show="isProjectOwner({{user.id}}, project)" href="[[ project.directory ]]/edit/">edit</a>
+                    </td>
                     {% comment %} <td>[[ project.directory ]]</td> {% endcomment %}
                     <td>[[ project.file_type ]]</td>
-                    <td>[[ project.rights.length ]]</td>
-                    <td>[[ project.tags.length ]]</td>
-                    <td>[[ project.records.length ]]</td>
-                    <td>[[ project.identifications.length ]]</td>
+                    <td>[[ project.right_count ]]</td>
+                    <td>[[ project.tag_count ]]</td>
+                    <td>[[ project.record_count ]]</td>
+                    <td>[[ project.identification_count ]]</td>
                 </tr>
             </tbody>
         </table>

@@ -14,7 +14,8 @@ app_name = 'birds'
 # Apps views
 apps_urls = [
     path('', ProjectListView.as_view(), name='project-list-view'),
-    path('projects/<int:project_id>/', ProjectDetailView.as_view(), name='project-detail-view'),
+    # path('projects/<int:project_id>/', ProjectDetailView.as_view(), name='project-detail-view'),
+    path('<slug:project_dir>/edit/', ProjectDetailView.as_view(), name='project-detail-view'),
     path('<slug:project_dir>/', views.project, name='project'),
 
 ]
@@ -33,7 +34,8 @@ rest_urls = [
     path('users/', UserList.as_view(), name='user-list'),
     path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
     path('projects/', ProjectList.as_view(), name='project-list'),
-    path('projects/<int:pk>/', ProjectDetail.as_view(), name='project-detail'),
+    # path('projects/<int:pk>/', ProjectDetail.as_view(), name='project-detail'),
+    path('projects/<slug:directory>/', ProjectDetail.as_view(), name='project-detail'),
     path('rights/', RightList.as_view(), name='right-list'),
     path('rights/<int:pk>/', RightDetail.as_view(), name='right-detail'),
     path('identifications/', IdentificationList.as_view(), name='identification-list'),

@@ -156,6 +156,7 @@ class RightDetail(RightMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRe
 class ProjectMixin(object):
     """Common configuration for ProjectList and ProjectDetail"""
     model = Project
+    lookup_field = 'directory'
     raise_exception = True
     serializer_class = ProjectSerializer
     permission_classes = [IsProjectOwner]

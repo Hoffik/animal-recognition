@@ -43,16 +43,36 @@ app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) {
     };
 
     $scope.loadProjects();
+
+    $scope.isProjectOwner = function(user, project) {
+        return project.owners.includes(user);
+    }
 });
 
 app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) { 
 
-    $scope.getProject = function(id) {
-        $http.get('/rest_api/projects/' + id + '/').then(function(response) {
+    $scope.getProject = function(dir) {
+        $http.get('/rest_api/projects/' + dir + '/').then(function(response) {
             $scope.project = response.data;
             $scope.new_user_role = "layman";
+        }).catch(function(error) {
+            console.log("Error in getProject processing", error);
+            $scope.error_message = error.data.detail;
         });
     };
+
+    // $http.get("url").
+    // then(someProcessingOf).
+    // catch(function(e){
+    //    console.log("got an error in initial processing",e);
+    //    throw e; // rethrow to not marked as handled, 
+    //             // in $q it's better to `return $q.reject(e)` here
+    // }).then(function(res){
+    //     // do more stuff
+    // }).catch(function(e){
+    //     // handle errors in processing or in error.
+    // });
+
 
     // updateProject(project)
 
@@ -75,7 +95,7 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
             $log.log("UserUtils create error " + response.status);
             //handleErrors(response, status, errors);
         }).then(function() {
-            $scope.getProject($scope.project.id);
+            $scope.getProject($scope.project.directory);
         });
     };
 
@@ -101,7 +121,7 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
             //handleErrors(response, status, errors);
         }).then(function() {
             $log.log("then function " + right.role + " " + right.project);
-            $scope.getProject(right.project);
+            $scope.getProject(right.project_dir);
         });
     };
 
@@ -109,7 +129,7 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
         $log.log("DELETE - ID: " + right.id + " role: " + right.role + " " + right.role_name);
         return $http.delete('/rest_api/rights/' + right.id + '/').then(function() {
             $log.log("then function " + right.role + " " + right.project);
-            $scope.getProject(right.project);
+            $scope.getProject(right.project_dir);
         });
     };
     

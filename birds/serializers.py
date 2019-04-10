@@ -19,13 +19,14 @@ class RightSerializer(serializers.ModelSerializer):
     # project = serializers.ReadOnlyField(source='project.id')
     username = serializers.ReadOnlyField(source='user.username')
     email = serializers.ReadOnlyField(source='user.email')
+    project_dir = serializers.ReadOnlyField(source='project.directory')
     identification_count = serializers.SerializerMethodField()
     role_name = serializers.ReadOnlyField(source='get_role_display')
     # role_choices = serializers.SerializerMethodField()
 
     class Meta:
         model = Right
-        fields = ('id', 'user', 'username', 'email', 'project', 'identification_count', 'role', 'role_name')
+        fields = ('id', 'user', 'username', 'email', 'project', 'project_dir', 'identification_count', 'role', 'role_name')
 
     def get_identifications(self, obj):
         identifications = Identification.objects.filter(user=obj.user, tag__project=obj.project)
@@ -48,8 +49,13 @@ class ProjectSerializer(serializers.ModelSerializer):
     """Serializer to map the Project model instance for view."""
     file_type = serializers.CharField(source='get_file_type_display')
     rights = RightSerializer(many=True, read_only=True)
+    owners = serializers.SerializerMethodField()
     role_names = serializers.SerializerMethodField()
     # role_choices = serializers.SerializerMethodField()
+    right_count = serializers.SerializerMethodField()
+    owner_count = serializers.SerializerMethodField()
+    expert_count = serializers.SerializerMethodField()
+    layman_count = serializers.SerializerMethodField()
     users_wo_rights = serializers.SerializerMethodField()
     tag_count = serializers.SerializerMethodField()
     record_count = serializers.SerializerMethodField()
@@ -59,13 +65,28 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map Project serializer's fields with the model fields."""
         model = Project
-        fields = ('id', 'name', 'directory', 'file_type', 'rights', 'role_names', 'users_wo_rights', 'tag_count', 'record_count', 'record_with_file_count', 'identification_count')
+        fields = ('id', 'name', 'directory', 'file_type', 'rights', 'owners', 'role_names', 'right_count', 'owner_count', 'expert_count', 'layman_count', 'users_wo_rights', 'tag_count', 'record_count', 'record_with_file_count', 'identification_count')
+
+    def get_owners(self, obj):
+        return Right.objects.filter(project=obj, role=0).values_list('user_id', flat=True)
 
     def get_role_names(self, obj):
         return Right.ROLE_NAMES
 
     def get_role_choices(self, obj):
         return Right.ROLE_CHOICES
+
+    def get_right_count(self, obj):
+        return Right.objects.filter(project=obj).count()
+
+    def get_owner_count(self, obj):
+        return Right.objects.filter(project=obj, role=0).count()
+
+    def get_expert_count(self, obj):
+        return Right.objects.filter(project=obj, role=1).count()
+
+    def get_layman_count(self, obj):
+        return Right.objects.filter(project=obj, role=2).count()
 
     def get_users_wo_rights(self, obj):
         users = User.objects.exclude(rights__in=obj.rights.all())
