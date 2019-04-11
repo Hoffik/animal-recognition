@@ -56,6 +56,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     owner_count = serializers.SerializerMethodField()
     expert_count = serializers.SerializerMethodField()
     layman_count = serializers.SerializerMethodField()
+    current_user_right = serializers.SerializerMethodField()
     users_wo_rights = serializers.SerializerMethodField()
     tag_count = serializers.SerializerMethodField()
     record_count = serializers.SerializerMethodField()
@@ -65,7 +66,18 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map Project serializer's fields with the model fields."""
         model = Project
-        fields = ('id', 'name', 'directory', 'file_type', 'rights', 'owners', 'role_names', 'right_count', 'owner_count', 'expert_count', 'layman_count', 'users_wo_rights', 'tag_count', 'record_count', 'record_with_file_count', 'identification_count')
+        fields = ('id', 'name', 'directory', 'file_type', 'rights', 'owners', 'role_names', 'right_count', 'owner_count', 'expert_count', 'layman_count', 'current_user_right', 'users_wo_rights', 'tag_count', 'record_count', 'record_with_file_count', 'identification_count')
+
+    # Use this method for the custom field
+    def get_current_user_right(self, obj):
+        # result = None
+        try:
+            return Right.objects.get(project=obj, user=self.context['request'].user.id).get_role_display()
+        except:
+            return None
+        # return result
+        # return Right.objects.filter(project=obj, user=self.context['request'].user.id).values_list('role', flat=True)
+        # return Right.objects.get(project=obj, user=self.context['request'].user.id).get_role_display()
 
     def get_owners(self, obj):
         return Right.objects.filter(project=obj, role=0).values_list('user_id', flat=True)

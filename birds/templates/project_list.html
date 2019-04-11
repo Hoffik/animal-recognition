@@ -12,7 +12,7 @@
                 <tr>
                     {% comment %} <th>ID</th> {% endcomment %}
                     <th>Name</th>
-                    {% comment %} <th>Directory</th> {% endcomment %}
+                    <th>Your role</th>
                     <th>File type</th>
                     <th># Users</th>
                     <th># Tags</th>
@@ -25,9 +25,11 @@
                     {% comment %} <td>[[ project.id ]]</td> {% endcomment %}
                     <td>
                         <a href="[[ project.directory ]]">[[ project.name ]]</a>
-                        <a ng-show="isProjectOwner({{user.id}}, project)" href="[[ project.directory ]]/edit/"><img src="[[ icon_edit ]]" title="Edit [[ project.name ]] project" alt="Edit" width="24px" height="24px" style="margin: -10px 0px -10px 0px;"></a>
+                        <a ng-show="isProjectOwner({{user.id}}, project)" href="[[ project.directory ]]/edit/">
+                            <img data-ng-src="[[ icon_edit ]]" title="Edit [[ project.name ]] project" alt="Edit" width="24px" height="24px" style="margin: -10px 0px -10px 0px;">
+                        </a>
                     </td>
-                    {% comment %} <td>[[ project.directory ]]</td> {% endcomment %}
+                    <td>[[ project.current_user_right ]]</td>
                     <td>[[ project.file_type ]]</td>
                     <td>[[ project.right_count ]]</td>
                     <td>[[ project.tag_count ]]</td>
