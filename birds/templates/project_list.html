@@ -25,7 +25,7 @@
                     {% comment %} <td>[[ project.id ]]</td> {% endcomment %}
                     <td>
                         <a href="[[ project.directory ]]">[[ project.name ]]</a>
-                        <a ng-show="isProjectOwner({{user.id}}, project)" href="[[ project.directory ]]/edit/">
+                        <a ng-show="project.current_user_right == 'owner'" href="[[ project.directory ]]/edit/">
                             <img data-ng-src="[[ icon_edit ]]" title="Edit [[ project.name ]] project" alt="Edit" width="24px" height="24px" style="margin: -10px 0px -10px 0px;">
                         </a>
                     </td>

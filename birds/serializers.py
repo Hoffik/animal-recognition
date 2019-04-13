@@ -45,6 +45,38 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email',)
 
+class BasicProjectSerializer(serializers.ModelSerializer):
+    """Serializer to map basic Project model data for project list view."""
+    current_user_right = serializers.SerializerMethodField()
+    file_type = serializers.CharField(source='get_file_type_display')
+    right_count = serializers.SerializerMethodField()
+    tag_count = serializers.SerializerMethodField()
+    record_count = serializers.SerializerMethodField()
+    identification_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Project
+        fields = ('id', 'name', 'directory', 'current_user_right', 'file_type', 'right_count', 'tag_count', 'record_count', 'identification_count',)
+
+    def get_current_user_right(self, obj):
+        try:
+            return Right.objects.get(project=obj, user=self.context['request'].user.id).get_role_display()
+        except:
+            return None
+
+    def get_right_count(self, obj):
+        return Right.objects.filter(project=obj).count()
+
+    def get_tag_count(self, obj):
+        return Tag.objects.filter(project=obj).count()
+
+    def get_record_count(self, obj):
+        return Record.objects.filter(project=obj).count()
+
+    def get_identification_count(self, obj):
+        return Identification.objects.filter(tag__in=obj.tags.all()).count()
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     """Serializer to map the Project model instance for view."""
     file_type = serializers.CharField(source='get_file_type_display')

@@ -27,9 +27,9 @@ app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) {
 
     $scope.loadProjects();
 
-    $scope.isProjectOwner = function(user, project) {
-        return project.owners.includes(user);
-    }
+    // $scope.isProjectOwner = function(user, project) {
+    //     return project.owners.includes(user);
+    // }
 });
 
 app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) { 

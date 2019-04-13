@@ -10,7 +10,7 @@ from rest_framework import generics
 import random
 
 from .models import User, Project, Right, Tag, Record, Weight, Identification
-from .serializers import UserSerializer, ProjectSerializer, RightSerializer, IdentificationSerializer
+from .serializers import UserSerializer, BasicProjectSerializer, ProjectSerializer, RightSerializer, IdentificationSerializer
 from .forms import SignUpForm
 from .permissions import IsProjectOwner
 
@@ -152,6 +152,14 @@ class RightList(RightMixin, generics.ListCreateAPIView):    #LoginRequiredMixin,
 class RightDetail(RightMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRequiredMixin, 
     pass
 
+class ProjectList(generics.ListAPIView):
+    model = Project
+    raise_exception = True
+    serializer_class = BasicProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.all()
+
 
 class ProjectMixin(object):
     """Common configuration for ProjectList and ProjectDetail"""
@@ -161,23 +169,8 @@ class ProjectMixin(object):
     serializer_class = ProjectSerializer
     permission_classes = [IsProjectOwner]
 
-    # def perform_create(self, serializer):
-    #     """Force meal.user to the current user on save"""
-    #     serializer.save(user=self.request.user)
-
     def get_queryset(self):
         return Project.objects.all()
-
-        # """Filter instances in list based on user rights"""
-        # user = self.request.user
-        # if user.is_staff:
-        #     return Meal.objects.all()
-        # elif user.is_manager:
-        #     return Meal.objects.filter(user__is_staff=False)
-        # return Meal.objects.filter(user__id=user.id)
-
-class ProjectList(ProjectMixin, generics.ListAPIView):
-    pass
 
 class ProjectDetail(LoginRequiredMixin, ProjectMixin, generics.RetrieveUpdateDestroyAPIView):
     pass
