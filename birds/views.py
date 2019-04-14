@@ -12,7 +12,7 @@ import random
 from .models import User, Project, Right, Tag, Record, Weight, Identification
 from .serializers import UserSerializer, BasicProjectSerializer, ProjectSerializer, RightSerializer, IdentificationSerializer
 from .forms import SignUpForm
-from .permissions import IsProjectOwner
+from .permissions import IsProjectOwner, IsRightOwner
 
 # Main page
 def project(request, project_dir):
@@ -141,16 +141,19 @@ class RightMixin(object):
     model = Right
     raise_exception = True
     serializer_class = RightSerializer
-    # permission_classes = [CanCRUDMeal]
+    permission_classes = [IsRightOwner]
 
     def get_queryset(self):
-        return Right.objects.all()
+        user = self.request.user
+        projects_with_owner_rights = Right.objects.filter(user=self.request.user, role=0).values_list('project', flat=True)
+        return Right.objects.filter(project_id__in=projects_with_owner_rights)
 
-class RightList(RightMixin, generics.ListCreateAPIView):    #LoginRequiredMixin, 
+class RightList(LoginRequiredMixin, RightMixin, generics.ListCreateAPIView):
     pass
 
-class RightDetail(RightMixin, generics.RetrieveUpdateDestroyAPIView):   #LoginRequiredMixin, 
+class RightDetail(LoginRequiredMixin, RightMixin, generics.RetrieveUpdateDestroyAPIView):
     pass
+
 
 class ProjectList(generics.ListAPIView):
     model = Project
@@ -176,29 +179,3 @@ class ProjectDetail(LoginRequiredMixin, ProjectMixin, generics.RetrieveUpdateDes
     pass
 
 
-
-
-
-# Old
-# def index(request):
-#     try:
-#         identified_tag = get_object_or_404(Tag, pk=request.POST['tag'])
-#         current_record = get_object_or_404(Record, pk=request.POST['record'])
-#         project_phase = current_record.project.phase
-#         identification = Identification(record=current_record, tag=identified_tag, phase=project_phase)
-#         identification.save()
-#         return HttpResponseRedirect(request.path_info)
-#     except:
-#         recordings = Record.objects.filter(file_on_server=True)
-#         probabilities = recordings.values_list('importance', flat=True)
-#         random_record = random.choices(recordings, weights=probabilities)[0]
-
-#         tags_with_weights = [weight.tag for weight in random_record.weights.all()]
-#         tags_without_weights = list(Tag.objects.exclude(id__in=[tag.id for tag in tags_with_weights]))
-#         all_tags = tags_with_weights + tags_without_weights
-
-#         context = {
-#             'random_record': random_record,
-#             'tags': all_tags,
-#         }
-#         return render(request, 'birds/index.html', context)
