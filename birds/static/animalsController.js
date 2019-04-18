@@ -34,38 +34,35 @@ app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) {
 
 app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) { 
 
+    $scope.updateNewUser = function(username, email, role_name) {
+        if (username) {
+            $scope.new_user = $scope.project.users_wo_rights.find(user_wo_rights => user_wo_rights.username === username);
+        } else if (email) {
+            $scope.new_user = $scope.project.users_wo_rights.find(user_wo_rights => user_wo_rights.email === email);
+        } else {
+            $scope.new_user_role_name = role_name
+        }
+    }
+
     $scope.getProject = function(dir) {
         $http.get('/rest_api/projects/' + dir + '/').then(function(response) {
             $scope.project = response.data;
             $scope.new_user_role = "layman";
         }).catch(function(error) {
-            console.log("Error in getProject processing", error);
+            console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
         });
     };
 
-    // $http.get("url").
-    // then(someProcessingOf).
-    // catch(function(e){
-    //    console.log("got an error in initial processing",e);
-    //    throw e; // rethrow to not marked as handled, 
-    //             // in $q it's better to `return $q.reject(e)` here
-    // }).then(function(res){
-    //     // do more stuff
-    // }).catch(function(e){
-    //     // handle errors in processing or in error.
-    // });
-
-
-    // updateProject(project)
-
-
     $scope.addRight = function() {
-        $log.log("ADD - ID: " + $scope.new_user.id + " name: " + $scope.new_user.username + " " + $scope.new_user.email);
+        // console.log($scope.new_user + " " + $scope.new_user_role_name);
+        if (!$scope.new_user || !$scope.new_user_role_name) {
+            throw "Input user name and role.";
+        }
         var data = $.param({
             project: $scope.project.id,
             user: $scope.new_user.id,
-            role: $scope.project.role_names.indexOf($scope.new_user_role),
+            role: $scope.project.role_names.indexOf($scope.new_user_role_name),
         });
         var config = {
             headers : {
@@ -79,18 +76,16 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
             //handleErrors(response, status, errors);
         }).then(function() {
             $scope.getProject($scope.project.directory);
+            $scope.new_user = undefined;
+            $scope.new_user_role_name = undefined;
         });
     };
 
-    $scope.updateRight = function(right) {
-        $log.log("ID: " + right.id + " role: " + right.role + " user: " + right.user);
-        right.role = $scope.project.role_names.indexOf(right.role_name);
-        $log.log("ID: " + right.id + " role: " + right.role + " " + right.role_name);
+    $scope.updateRight = function(right, role_name) {
         var data = $.param({
             project: $scope.project.id,
             user: right.user,
-            role: right.role,
-            // "role_name": right.role_name
+            role: $scope.project.role_names.indexOf(role_name),
         });
         var config = {
             headers : {

@@ -1,4 +1,3 @@
-/* Tag */
 div.tag-container {
   padding-right: 0px;
   padding-left: 0px;
@@ -42,36 +41,6 @@ div.tag-container div.row div.cell button.basic {
   height: 200px;
 }
 
-div.tag-container div.row div.cell button.dropdown-toggle {
-  border: 0;
-  padding: 0;
-  border-radius: 5px;
-  width: 100%;
-  min-height: 34px;
-}
-
-div.tag-container div.row div.cell ul.dropdown-menu {
-  min-width: 100%;
-  height: auto;
-  max-height: 166px;
-  overflow-x: hidden;
-}
-
-div.tag-container div.row div.cell button.dropdown-choice {
-  border: none;
-  background-color: inherit;
-  cursor: pointer;
-  display: block;
-  padding: 3px 20px;
-  width: 100%;
-  text-align: left;
-}
-
-div.tag-container div.row div.cell button.dropdown-choice:hover {
-  background: #eee;
-}
-
-/* Form */
 div.form-container {
   padding-right: 30px;
   padding-left: 0px;
@@ -98,6 +67,46 @@ div.form-container form input {
   border-radius: 5px;
 }
 
+div.form-container form select {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+div.form-container form select option {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+div.form-container form select option:hover {
+  background: #eee;
+}
+
+div.form-container form button.select {
+  border: 1px solid #ccc;
+  padding: 6px 24px 6px 12px;
+  background-color: white;
+  position: relative;
+}
+
+div.form-container form button.select span.caret {
+  position: absolute;
+  right: 5px;
+  top: 14px;
+}
+
+div.form-container form button.send {
+  width: 100%;
+}
+
 div.form-container form div.help-text {
   color: grey;
   font-size: smaller;
@@ -119,5 +128,42 @@ div.form-container form button {
   border: 1px solid transparent;
   padding: 6px 12px;
   border-radius: 5px;
+}
+
+div.dropdown button.dropdown-toggle {
+  border: 0;
+  padding: 0;
+  border-radius: 5px;
+  width: 100%;
+  min-height: 34px;
+}
+
+div.dropdown ul.dropdown-menu {
+  min-width: 100%;
+  height: auto;
+  max-height: 166px;
+  overflow-x: hidden;
+}
+
+div.dropdown ul.dropdown-menu button.dropdown-choice {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  display: block;
+  padding: 3px 20px;
+  width: 100%;
+  text-align: left;
+}
+
+div.dropdown ul.dropdown-menu button.dropdown-choice:hover {
+  background: #eee;
+}
+
+div.dropdown ul.dropdown-menu button.active {
+  background-color: #ced8e8;
+}
+
+div.dropdown ul.dropdown-menu button.active:hover {
+  background-color: lightsteelblue;
 }
 /*# sourceMappingURL=styles.css.map */

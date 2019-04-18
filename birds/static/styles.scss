@@ -1,4 +1,4 @@
-/* Tag */
+// Tag
 div.tag-container {
     padding-right: 0px;
     padding-left: 0px;
@@ -36,36 +36,13 @@ div.tag-container {
                 width: 100%;
                 height: 200px;
             }
-            button.dropdown-toggle {
-                border: 0;
-                padding: 0;
-                border-radius: 5px;
-                width: 100%;
-                min-height: 34px;
-            }
-            ul.dropdown-menu {
-                min-width: 100%;
-                height: auto;
-                max-height: 166px;
-                overflow-x: hidden;
-            }            
-            button.dropdown-choice {
-                border: none;
-                background-color: inherit;
-                cursor: pointer;
-                display: block;
-                padding: 3px 20px;
-                width: 100%;
-                text-align: left;
-            }  
-            button.dropdown-choice:hover {
-                background: #eee;
-            }
+            // dropdown
         }
     }
 }
 
-/* Form */
+
+// Form
 div.form-container {
     padding-right: 30px;
     padding-left: 0px;
@@ -89,6 +66,44 @@ div.form-container {
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        select {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            
+            option {
+                border: none;
+                background-color: inherit;
+                cursor: pointer;
+                display: block;
+                // padding: 3px 20px;
+                width: 100%;
+                text-align: left;
+            }  
+            option:hover {
+                background: #eee;
+            }
+        }
+        button.select {
+            border: 1px solid #ccc;
+            padding: 6px 24px 6px 12px;
+            background-color: white;
+            position: relative;
+
+            span.caret {
+                position: absolute;
+                right: 5px;
+                top: 14px;
+            }
+        }
+        button.send {
+            width: 100%;
+        }
+        // dropdown
         div.help-text {
             color: grey;
             font-size: smaller;
@@ -111,3 +126,40 @@ div.form-container {
     }
 }
 
+
+// dropdown
+div.dropdown {
+    button.dropdown-toggle {
+        border: 0;
+        padding: 0;
+        border-radius: 5px;
+        width: 100%;
+        min-height: 34px;
+    }
+    ul.dropdown-menu {
+        min-width: 100%;
+        height: auto;
+        max-height: 166px;
+        overflow-x: hidden;
+
+        button.dropdown-choice {
+            border: none;
+            background-color: inherit;
+            cursor: pointer;
+            display: block;
+            padding: 3px 20px;
+            width: 100%;
+            text-align: left;
+        }  
+        button.dropdown-choice:hover {
+            background: #eee;
+        }
+        button.active {
+            background-color: rgb(206, 216, 232);
+        }
+        button.active:hover {
+            background-color: lightsteelblue;
+        }
+    }            
+}
+ 
