@@ -9,64 +9,96 @@
 
 <h1>[[ project.name ]]</h1>
 
-<form class="form-horizontal">
-    {% csrf_token %}
+<form>
+{% csrf_token %}
+
+{% comment %} <div class="container"> {% endcomment %}
+<div class="container-part-1-2">
+            
     <div class="form-group">
-        <label class="control-label col-sm-2">ID:</label>
-        <div class="col-sm-10">
-            <div style="padding: 6px 12px;">[[ project.id ]]</div>
-            {% comment %} <input class="form-control" type="text" name="id" ng-model="project.id" readonly> {% endcomment %}
+        <div class="form-label">
+            <label>ID:</label>
+        </div>
+        <div class="form-value">
+            <div class="value">[[ project.id ]]</div>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2">Name:</label>
-        <div class="col-sm-10"> 
-            <input class="form-control" type="text" name="name" ng-model="project.name">
+        <div class="form-label">
+            <label>Name:</label>
+        </div>
+        <div class="form-value">
+            <input type="text" name="name" ng-model="project.name">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2">Directory:</label>
-        <div class="col-sm-10"> 
-            <input class="form-control" type="text" name="directory" ng-model="project.directory">
+        <div class="form-label">
+            <label>Directory:</label>
+        </div>
+        <div class="form-value"> 
+            <input type="text" name="directory" ng-model="project.directory">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2">File type:</label>
-        <div class="col-sm-10"> 
-            <input class="form-control" type="text" name="file_type" ng-model="project.file_type">
+        <div class="form-label">
+            <label>File type:</label>
+        </div>
+        <div class="form-value"> 
+            <input type="text" name="file_type" ng-model="project.file_type">
+        </div>
+    </div>
+
+</div>
+
+<div class="container-part-1-2">
+
+    <div class="form-group">
+        <div class="form-label">
+            <label># Tags:</label>
+        </div>
+        <div class="form-value">
+            <div class="value">[[ project.tag_count ]]</div>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2"># Tags:</label>
-        <div class="col-sm-10"> 
-            <div style="padding: 6px 12px;">[[ project.tag_count ]]</div>
+        <div class="form-label">
+            <label># Records:</label>
+        </div>
+        <div class="form-value">
+            <div class="value">[[ project.record_count ]] ([[ project.record_with_file_count ]] with file)</div>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2"># Records:</label>
-        <div class="col-sm-10"> 
-            <div style="padding: 6px 12px;">[[ project.record_count ]] ([[ project.record_with_file_count ]] with file)</div>
+        <div class="form-label">
+            <label># Users:</label>
+        </div>
+        <div class="form-value">
+            <div class="value">[[ project.right_count ]] ([[ project.owner_count ]], [[ project.expert_count ]], [[ project.layman_count ]])</div>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-2"># Users:</label>
-        <div class="col-sm-10"> 
-            <div style="padding: 6px 12px;">[[ project.right_count ]] ([[ project.owner_count ]] owners, [[ project.expert_count ]] experts, [[ project.layman_count ]] laymen)</div>
+        <div class="form-label">
+            <label># Entries:</label>
+        </div>
+        <div class="form-value">
+            <div class="value">[[ project.identification_count ]]</div>
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2"># Entries:</label>
-        <div class="col-sm-10"> 
-            <div style="padding: 6px 12px;">[[ project.identification_count ]]</div>
+
+</div>
+
+<div class="form-group">
+    <div class="form-label">
+            <label></label>
         </div>
-    </div>
-    <div class="form-group"> 
-        <div class="col-sm-offset-2 col-sm-10">
-            {% comment %} <button type="submit" class="btn btn-default">Update</button> {% endcomment %}
+        <div class="form-value">
             <button ng-click="updateProject(project)">Update</button>
         </div>
-    </div>
+</div>
+
 </form>
+{% comment %} </div> {% endcomment %}
+
 
 <h2>Project users:</h2>
 

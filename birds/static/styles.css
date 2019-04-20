@@ -42,20 +42,40 @@ div.tag-container div.row div.cell button.basic {
 }
 
 div.form-container {
-  padding-right: 30px;
   padding-left: 0px;
   margin-right: 15%;
   margin-left: 15%;
 }
 
+div.form-container form div.container-part-1-2 {
+  float: left;
+  width: 50%;
+  padding-right: 50px;
+}
+
 div.form-container form div.form-group {
+  display: table;
   margin-bottom: 15px;
 }
 
+div.form-container form div.form-group div.form-label {
+  display: table-cell;
+  text-align: right;
+}
+
+div.form-container form div.form-group div.form-value {
+  display: table-cell;
+  width: 100%;
+}
+
 div.form-container form label {
-  display: inline-block;
-  margin-bottom: 5px;
+  width: 100px;
+  padding: 7px 13px;
   font-weight: 700;
+}
+
+div.form-container form div.value {
+  padding: 7px 13px;
 }
 
 div.form-container form input {
@@ -65,29 +85,6 @@ div.form-container form input {
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
-
-div.form-container form select {
-  display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-div.form-container form select option {
-  border: none;
-  background-color: inherit;
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  text-align: left;
-}
-
-div.form-container form select option:hover {
-  background: #eee;
 }
 
 div.form-container form button.select {
