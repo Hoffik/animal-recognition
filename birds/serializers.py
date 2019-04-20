@@ -79,7 +79,8 @@ class BasicProjectSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     """Serializer to map the Project model instance for view."""
-    file_type = serializers.CharField(source='get_file_type_display')
+    directory = serializers.ReadOnlyField()
+    file_type = serializers.CharField(source='get_file_type_display', read_only=True)
     rights = RightSerializer(many=True, read_only=True)
     owners = serializers.SerializerMethodField()
     role_names = serializers.SerializerMethodField()

@@ -30,13 +30,16 @@
         <div class="form-value">
             <input type="text" name="name" ng-model="project.name">
         </div>
+        <div class="form-value">
+            <button ng-click="updateProject(project)">Update</button>
+        </div>
     </div>
     <div class="form-group">
         <div class="form-label">
             <label>Directory:</label>
         </div>
         <div class="form-value"> 
-            <input type="text" name="directory" ng-model="project.directory">
+            <div class="value">[[ project.directory ]]</div>
         </div>
     </div>
     <div class="form-group">
@@ -44,7 +47,7 @@
             <label>File type:</label>
         </div>
         <div class="form-value"> 
-            <input type="text" name="file_type" ng-model="project.file_type">
+            <div class="value">[[ project.file_type ]]</div>
         </div>
     </div>
 
@@ -87,14 +90,14 @@
 
 </div>
 
-<div class="form-group">
+{% comment %} <div class="form-group">
     <div class="form-label">
             <label></label>
         </div>
         <div class="form-value">
             <button ng-click="updateProject(project)">Update</button>
         </div>
-</div>
+</div> {% endcomment %}
 
 </form>
 {% comment %} </div> {% endcomment %}

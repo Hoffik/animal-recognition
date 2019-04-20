@@ -26,10 +26,6 @@ app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) {
     };
 
     $scope.loadProjects();
-
-    // $scope.isProjectOwner = function(user, project) {
-    //     return project.owners.includes(user);
-    // }
 });
 
 app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) { 
@@ -51,6 +47,26 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
         }).catch(function(error) {
             console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
+        });
+    };
+
+    $scope.updateProject = function(project) {
+        var data = $.param({
+            name: project.name,
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.put('/rest_api/projects/' + project.directory + '/', data, config).then(function(response) {
+            angular.extend(project, response);
+        }, function(response) {
+            $log.log("Method updateProject error " + response.status);
+            //handleErrors(response, status, errors);
+        }).then(function() {
+            // $log.log("then function " + right.role + " " + right.project);
+            $scope.getProject(project.directory);
         });
     };
 

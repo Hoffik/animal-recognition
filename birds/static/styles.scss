@@ -68,6 +68,7 @@ div.form-container {
             }
             div.form-value {
                 // float: left;
+                padding-right: 13px;
                 display: table-cell;
                 width: 100%;
             }
@@ -75,9 +76,9 @@ div.form-container {
 
         label {
             // display: inline-block;
-            // margin-bottom: 5px;
             width: 100px;
             padding: 7px 13px;
+            margin: 0;
             font-weight: 700;
         }
         div.value {

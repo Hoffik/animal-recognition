@@ -64,6 +64,7 @@ div.form-container form div.form-group div.form-label {
 }
 
 div.form-container form div.form-group div.form-value {
+  padding-right: 13px;
   display: table-cell;
   width: 100%;
 }
@@ -71,6 +72,7 @@ div.form-container form div.form-group div.form-value {
 div.form-container form label {
   width: 100px;
   padding: 7px 13px;
+  margin: 0;
   font-weight: 700;
 }
 
