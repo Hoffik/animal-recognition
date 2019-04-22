@@ -27,11 +27,12 @@
         <div class="form-label">
             <label>Name:</label>
         </div>
-        <div class="form-value">
+        <div class="form-value" style="padding-right: 13px;">
             <input type="text" name="name" ng-model="project.name">
         </div>
         <div class="form-value">
-            <button ng-click="updateProject(project)">Update</button>
+            <img class="small" data-ng-src="[[ icon_save ]]" title="Update project name" alt="Update" width="32px" height="32px">
+            <button class="big" ng-click="updateProject(project)">Update</button>
         </div>
     </div>
     <div class="form-group">
@@ -89,6 +90,8 @@
     </div>
 
 </div>
+
+<br style="clear: left;">   <!-- clearfix to avoid parent collapse -->
 
 {% comment %} <div class="form-group">
     <div class="form-label">

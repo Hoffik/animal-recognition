@@ -1,3 +1,18 @@
+$medium-window-size: 800px;
+$small-window-size: 400px;
+
+// Responsive
+.small {
+    @media (min-width: $small-window-size + 1) {
+        display: none;
+    }
+}
+.big {
+    @media (max-width: $small-window-size) {
+        display: none;
+    }
+}
+
 // Tag
 div.tag-container {
     padding-right: 0px;
@@ -46,19 +61,36 @@ div.tag-container {
 div.form-container {
     // padding-right: 30px;
     padding-left: 0px;
-    margin-right: 15%;
-    margin-left: 15%;
+    margin: 0% 10%;
+    // margin-right: 15%;
+    // margin-left: 15%;
+
+    @media (max-width: $small-window-size) {
+        margin: 0% 5%;
+    }
+    
 
     form {
         div.container-part-1-2 {
             float: left;
             width: 50%;
-            padding-right: 50px;
+            padding-right: 2%;
+
+            @media (max-width: $medium-window-size) {
+                width: 100%;
+            }
         }
         div.form-group {
             display: table;
             margin-bottom: 15px;
             // min-height: 34px;
+
+            @media (max-width: $medium-window-size) {
+                margin-bottom: 5px;
+            }
+            @media (max-width: $small-window-size) {
+                margin-bottom: 0px;
+            }
 
             div.form-label {
                 // float: left;
@@ -68,9 +100,10 @@ div.form-container {
             }
             div.form-value {
                 // float: left;
-                padding-right: 13px;
+                // padding-right: 13px;
                 display: table-cell;
                 width: 100%;
+                vertical-align: middle;
             }
         }
 

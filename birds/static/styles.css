@@ -1,3 +1,15 @@
+@media (min-width: 401px) {
+  .small {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .big {
+    display: none;
+  }
+}
+
 div.tag-container {
   padding-right: 0px;
   padding-left: 0px;
@@ -43,19 +55,42 @@ div.tag-container div.row div.cell button.basic {
 
 div.form-container {
   padding-left: 0px;
-  margin-right: 15%;
-  margin-left: 15%;
+  margin: 0% 10%;
+}
+
+@media (max-width: 400px) {
+  div.form-container {
+    margin: 0% 5%;
+  }
 }
 
 div.form-container form div.container-part-1-2 {
   float: left;
   width: 50%;
-  padding-right: 50px;
+  padding-right: 2%;
+}
+
+@media (max-width: 800px) {
+  div.form-container form div.container-part-1-2 {
+    width: 100%;
+  }
 }
 
 div.form-container form div.form-group {
   display: table;
   margin-bottom: 15px;
+}
+
+@media (max-width: 800px) {
+  div.form-container form div.form-group {
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 400px) {
+  div.form-container form div.form-group {
+    margin-bottom: 0px;
+  }
 }
 
 div.form-container form div.form-group div.form-label {
@@ -64,9 +99,9 @@ div.form-container form div.form-group div.form-label {
 }
 
 div.form-container form div.form-group div.form-value {
-  padding-right: 13px;
   display: table-cell;
   width: 100%;
+  vertical-align: middle;
 }
 
 div.form-container form label {
