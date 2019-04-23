@@ -1,7 +1,15 @@
 $medium-window-size: 800px;
 $small-window-size: 400px;
 
-// Responsive
+// All
+main {
+    padding-left: 0px;
+    margin: 0% 10%;
+
+    @media (max-width: $small-window-size) {
+        margin: 0% 5%;
+    }
+}
 .small {
     @media (min-width: $small-window-size + 1) {
         display: none;
@@ -12,6 +20,8 @@ $small-window-size: 400px;
         display: none;
     }
 }
+
+
 
 // Tag
 div.tag-container {
@@ -58,109 +68,94 @@ div.tag-container {
 
 
 // Form
-div.form-container {
-    // padding-right: 30px;
-    padding-left: 0px;
-    margin: 0% 10%;
-    // margin-right: 15%;
-    // margin-left: 15%;
+div.container-part-1-2 {
+    float: left;
+    width: 50%;
+    padding-right: 2%;
 
+    @media (max-width: $medium-window-size) {
+        width: 100%;
+    }
+}
+div.form-group {
+    display: table;
+    margin-bottom: 15px;
+    // min-height: 34px;
+
+    @media (max-width: $medium-window-size) {
+        margin-bottom: 5px;
+    }
     @media (max-width: $small-window-size) {
-        margin: 0% 5%;
+        margin-bottom: 0px;
     }
-    
 
-    form {
-        div.container-part-1-2 {
-            float: left;
-            width: 50%;
-            padding-right: 2%;
-
-            @media (max-width: $medium-window-size) {
-                width: 100%;
-            }
-        }
-        div.form-group {
-            display: table;
-            margin-bottom: 15px;
-            // min-height: 34px;
-
-            @media (max-width: $medium-window-size) {
-                margin-bottom: 5px;
-            }
-            @media (max-width: $small-window-size) {
-                margin-bottom: 0px;
-            }
-
-            div.form-label {
-                // float: left;
-                display: table-cell;
-                // width: 50%;
-                text-align: right;
-            }
-            div.form-value {
-                // float: left;
-                // padding-right: 13px;
-                display: table-cell;
-                width: 100%;
-                vertical-align: middle;
-            }
-        }
-
-        label {
-            // display: inline-block;
-            width: 100px;
-            padding: 7px 13px;
-            margin: 0;
-            font-weight: 700;
-        }
-        div.value {
-            padding: 7px 13px;  // 6px 12px + 1px border
-        }
-        input {
-            display: block;
-            width: 100%;
-            height: 34px;
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button.select {
-            border: 1px solid #ccc;
-            padding: 6px 24px 6px 12px;
-            background-color: white;
-            position: relative;
-
-            span.caret {
-                position: absolute;
-                right: 5px;
-                top: 14px;
-            }
-        }
-        button.send {
-            width: 100%;
-        }
-        // dropdown
-        div.help-text {
-            color: grey;
-            font-size: smaller;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-        ul {
-            padding: 0px;
-            margin: 0px;
-            list-style-type: none;
-        }
-        p.error-message {
-            color: red;
-        }
-        button {
-            border: 1px solid transparent;
-            padding: 6px 12px;
-            border-radius: 5px;
-        }
+    div.form-label {
+        // float: left;
+        display: table-cell;
+        // width: 50%;
+        text-align: right;
     }
+    div.form-value {
+        // float: left;
+        // padding-right: 13px;
+        display: table-cell;
+        width: 100%;
+        vertical-align: middle;
+    }
+}
+
+label {
+    // display: inline-block;
+    width: 100px;
+    padding: 7px 13px;
+    margin: 0;
+    font-weight: 700;
+}
+div.value {
+    padding: 7px 13px;  // 6px 12px + 1px border
+}
+input {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button.select {
+    border: 1px solid #ccc;
+    padding: 6px 24px 6px 12px;
+    background-color: white;
+    position: relative;
+
+    span.caret {
+        position: absolute;
+        right: 5px;
+        top: 14px;
+    }
+}
+button.send {
+    width: 100%;
+}
+// dropdown
+div.help-text {
+    color: grey;
+    font-size: smaller;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+ul {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+p.error-message {
+    color: red;
+}
+button {
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    border-radius: 5px;
 }
 
 

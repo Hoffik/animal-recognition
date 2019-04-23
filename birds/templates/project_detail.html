@@ -2,15 +2,12 @@
 
 {% block content %}
 
-<div ng-controller="ProjectDetailCtrl" ng-init="getProject('{{ project_dir }}')" ng-cloak class="form-container">
+<main ng-controller="ProjectDetailCtrl" ng-init="getProject('{{ project_dir }}')" ng-cloak class="form-container">
 
 <div ng-show="error_message">[[ error_message ]]</div>
 <div ng-hide="error_message">
 
 <h1>[[ project.name ]]</h1>
-
-<form>
-{% csrf_token %}
 
 {% comment %} <div class="container"> {% endcomment %}
 <div class="container-part-1-2">
@@ -102,14 +99,10 @@
         </div>
 </div> {% endcomment %}
 
-</form>
 {% comment %} </div> {% endcomment %}
 
 
 <h2>Project users:</h2>
-
-<form>
-{% csrf_token %}
 
     <div class="table-responsive">          
         <table class="table">
@@ -195,11 +188,10 @@
             </tbody>
         </table>
     </div>
-</form>
 
 </div>
 
-</div>
+</main>
 
 {% endblock content %}
 
