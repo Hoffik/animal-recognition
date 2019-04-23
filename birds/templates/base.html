@@ -21,7 +21,7 @@
 
     <body ng-app="animalsApp">
 
-        <aside style="position:absolute; right:5px; top:5px;" role="navigation">
+        <nav>
             {% if user.username %}
                 <div>Hi <a href="{% url 'birds:profile' %}">{{user.username}}</a></div>
                 <div><a href="{% url 'birds:logout' %}">Logout</a></div>
@@ -29,7 +29,7 @@
                 <div><a href="{% url 'birds:login' %}">Login</a></div>
                 <div><a href="{% url 'birds:signup' %}">Sign up</a></div>
             {% endif %}
-        </aside>
+        </nav>
 
         {% block content %}
             <!-- Put content here -->

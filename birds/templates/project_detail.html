@@ -2,115 +2,108 @@
 
 {% block content %}
 
-<main ng-controller="ProjectDetailCtrl" ng-init="getProject('{{ project_dir }}')" ng-cloak class="form-container">
+<main ng-controller="ProjectDetailCtrl" ng-init="getProject('{{ project_dir }}')" ng-cloak>
 
 <div ng-show="error_message">[[ error_message ]]</div>
 <div ng-hide="error_message">
 
-<h1>[[ project.name ]]</h1>
+<section id="project-parameters">
 
-{% comment %} <div class="container"> {% endcomment %}
-<div class="container-part-1-2">
-            
-    <div class="form-group">
-        <div class="form-label">
-            <label>ID:</label>
-        </div>
-        <div class="form-value">
-            <div class="value">[[ project.id ]]</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-label">
-            <label>Name:</label>
-        </div>
-        <div class="form-value" style="padding-right: 13px;">
-            <input type="text" name="name" ng-model="project.name">
-        </div>
-        <div class="form-value">
-            <img class="small" data-ng-src="[[ icon_save ]]" title="Update project name" alt="Update" width="32px" height="32px">
-            <button class="big" ng-click="updateProject(project)">Update</button>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-label">
-            <label>Directory:</label>
-        </div>
-        <div class="form-value"> 
-            <div class="value">[[ project.directory ]]</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-label">
-            <label>File type:</label>
-        </div>
-        <div class="form-value"> 
-            <div class="value">[[ project.file_type ]]</div>
-        </div>
-    </div>
+    <h1>[[ project.name ]]</h1>
 
-</div>
+    <div class="container-part-1-2">
+                
+        <div class="form-group">
+            <div class="form-label">
+                <label>ID:</label>
+            </div>
+            <div class="form-value">
+                <div class="value">[[ project.id ]]</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-label">
+                <label>Name:</label>
+            </div>
+            <div class="form-value" style="padding-right: 13px;">
+                <input type="text" name="name" ng-model="project.name">
+            </div>
+            <div class="form-value">
+                <img class="small" data-ng-src="[[ icon_save ]]" title="Update project name" alt="Update" width="32px" height="32px">
+                <button class="medium-big" ng-click="updateProject(project)">Update</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-label">
+                <label>Directory:</label>
+            </div>
+            <div class="form-value"> 
+                <div class="value">[[ project.directory ]]</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-label">
+                <label>File type:</label>
+            </div>
+            <div class="form-value"> 
+                <div class="value">[[ project.file_type ]]</div>
+            </div>
+        </div>
 
-<div class="container-part-1-2">
-
-    <div class="form-group">
-        <div class="form-label">
-            <label># Tags:</label>
-        </div>
-        <div class="form-value">
-            <div class="value">[[ project.tag_count ]]</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-label">
-            <label># Records:</label>
-        </div>
-        <div class="form-value">
-            <div class="value">[[ project.record_count ]] ([[ project.record_with_file_count ]] with file)</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-label">
-            <label># Users:</label>
-        </div>
-        <div class="form-value">
-            <div class="value">[[ project.right_count ]] ([[ project.owner_count ]], [[ project.expert_count ]], [[ project.layman_count ]])</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-label">
-            <label># Entries:</label>
-        </div>
-        <div class="form-value">
-            <div class="value">[[ project.identification_count ]]</div>
-        </div>
     </div>
 
-</div>
+    <div class="container-part-1-2">
 
-<br style="clear: left;">   <!-- clearfix to avoid parent collapse -->
-
-{% comment %} <div class="form-group">
-    <div class="form-label">
-            <label></label>
+        <div class="form-group">
+            <div class="form-label">
+                <label># Tags:</label>
+            </div>
+            <div class="form-value">
+                <div class="value">[[ project.tag_count ]]</div>
+            </div>
         </div>
-        <div class="form-value">
-            <button ng-click="updateProject(project)">Update</button>
+        <div class="form-group">
+            <div class="form-label">
+                <label># Records:</label>
+            </div>
+            <div class="form-value">
+                <div class="value">[[ project.record_count ]] ([[ project.record_with_file_count ]] with file)</div>
+            </div>
         </div>
-</div> {% endcomment %}
+        <div class="form-group">
+            <div class="form-label">
+                <label># Users:</label>
+            </div>
+            <div class="form-value">
+                <div class="value">[[ project.right_count ]] ([[ project.owner_count ]], [[ project.expert_count ]], [[ project.layman_count ]])</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-label">
+                <label># Entries:</label>
+            </div>
+            <div class="form-value">
+                <div class="value">[[ project.identification_count ]]</div>
+            </div>
+        </div>
 
-{% comment %} </div> {% endcomment %}
+    </div>
 
+    <br style="clear: left;">   <!-- clearfix to avoid parent collapse -->
 
-<h2>Project users:</h2>
+</section>
 
-    <div class="table-responsive">          
+<section id="project-users">
+
+    <h2>Project users:</h2>
+
+    {% comment %} <div class="table-container"> {% endcomment %}
         <table class="table">
             <thead>
                 <tr>
                     <th>Username:</th>
-                    <th>Email:</th>
-                    <th># Entries</th>
+                    <th class="big">Email:</th>
+                    <th><span class="small-medium" title="Number of user identifications">#</span><span class="big"># Entries</span></th>
                     <th>Role</th>
                     <th></th>
                 </tr>
@@ -129,7 +122,7 @@
                             </ul>
                         </div>
                     </td>
-                    <td>
+                    <td class="big">
                         <div class="dropdown">
                             <button class="select dropdown-toggle" data-toggle="dropdown" title="User email">
                                 [[ new_user.email ]] <span class="caret"></span>
@@ -154,19 +147,14 @@
                             </ul>
                         </div>
                     </td>
-                    <td><button class="send" ng-click="addRight()">Add</button></td>
+                    <td class="icon">
+                        <img class="small" data-ng-src="[[ icon_add_user ]]" title="Add user to project" alt="Add" width="32px" height="32px">
+                        <button class="medium-big" ng-click="addRight()">Add</button>
+                    </td>
                 </tr>
-                {% comment %} <tr>
-                    <td><select ng-model="new_user" ng-options="user_wo_rights.username for user_wo_rights in project.users_wo_rights"></select></td>
-                    <td><select ng-model="new_user" ng-options="user_wo_rights.email for user_wo_rights in project.users_wo_rights"></select></td>
-                    <td></td>
-                    <td><select ng-model="new_user_role" ng-options="role_name for role_name in project.role_names"></select></td>
-                    <td></td>
-                    <td><button ng-click="addRight()">Add</button></td>
-                </tr>  {% endcomment %}
                 <tr ng-repeat="right in project.rights | orderBy:['role','-name']">
                     <td>[[ right.username ]]</td>
-                    <td>[[ right.email ]]</td>
+                    <td class="big">[[ right.email ]]</td>
                     <td>[[ right.identification_count ]]</td>
 
                     <td>
@@ -180,14 +168,17 @@
                                 </li>
                             </ul>
                         </div>
-                        {% comment %} <select ng-model="right.role_name" ng-options="role_name for role_name in project.role_names"></select> {% endcomment %}
                     </td>
-                    {% comment %} <td><input type="text" name="role" ng-model="right.role_name" ng-value="1"></td> {% endcomment %}
-                    <td><button class="send" ng-click="deleteRight(right)">Remove</button></td>
+                    <td class="icon">
+                        <img class="small" data-ng-src="[[ icon_trash ]]" title="Remove user from project" alt="Remove" width="32px" height="32px">
+                        <button class="medium-big" ng-click="deleteRight(right)">Remove</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-    </div>
+    {% comment %} </div> {% endcomment %}
+
+</section>
 
 </div>
 

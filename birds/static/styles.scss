@@ -1,5 +1,5 @@
 $medium-window-size: 800px;
-$small-window-size: 400px;
+$small-window-size: 500px;
 
 // All
 main {
@@ -10,13 +10,28 @@ main {
         margin: 0% 5%;
     }
 }
+nav {
+    position:absolute;
+    right:5px;
+    top:5px;
+}
 .small {
     @media (min-width: $small-window-size + 1) {
         display: none;
     }
 }
-.big {
+.small-medium {
+    @media (min-width: $medium-window-size + 1) {
+        display: none;
+    }
+}
+.medium-big {
     @media (max-width: $small-window-size) {
+        display: none;
+    }
+}
+.big {
+    @media (max-width: $medium-window-size) {
         display: none;
     }
 }
@@ -79,15 +94,15 @@ div.container-part-1-2 {
 }
 div.form-group {
     display: table;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
     // min-height: 34px;
 
     @media (max-width: $medium-window-size) {
-        margin-bottom: 5px;
+        margin-bottom: 4px;
     }
-    @media (max-width: $small-window-size) {
-        margin-bottom: 0px;
-    }
+    // @media (max-width: $small-window-size) {
+    //     margin-bottom: 0px;
+    // }
 
     div.form-label {
         // float: left;
@@ -134,9 +149,9 @@ button.select {
         top: 14px;
     }
 }
-button.send {
-    width: 100%;
-}
+// button.send {
+//     width: 100%;
+// }
 // dropdown
 div.help-text {
     color: grey;
@@ -158,12 +173,47 @@ button {
     border-radius: 5px;
 }
 
+// Table
+table.table {
+    // tbody {
+        tr {
+            th {
+                vertical-align: middle;
+                padding: 7px;
+
+                @media (max-width: $medium-window-size) {
+                    padding: 4px 7px;
+                }
+            }
+            td {
+                vertical-align: middle;
+                padding: 7px;
+
+                @media (max-width: $medium-window-size) {
+                    padding: 4px 7px;
+                }
+            }
+            td.icon {
+                @media (max-width: $small-window-size) {
+                    width: 1%;
+                }
+            }
+        }
+        button {
+            padding: 6px 0px;
+            width: 100%;
+        }
+    // }
+}
+
 
 // dropdown
 div.dropdown {
+    height: 34px;
+
     button.dropdown-toggle {
-        border: 0;
-        padding: 0;
+        // border: 0;
+        padding: 0px 13px 0px 0px;
         border-radius: 5px;
         width: 100%;
         min-height: 34px;

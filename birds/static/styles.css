@@ -3,19 +3,37 @@ main {
   margin: 0% 10%;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   main {
     margin: 0% 5%;
   }
 }
 
-@media (min-width: 401px) {
+nav {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+@media (min-width: 501px) {
   .small {
     display: none;
   }
 }
 
-@media (max-width: 400px) {
+@media (min-width: 801px) {
+  .small-medium {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .medium-big {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
   .big {
     display: none;
   }
@@ -78,18 +96,12 @@ div.container-part-1-2 {
 
 div.form-group {
   display: table;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 
 @media (max-width: 800px) {
   div.form-group {
-    margin-bottom: 5px;
-  }
-}
-
-@media (max-width: 400px) {
-  div.form-group {
-    margin-bottom: 0px;
+    margin-bottom: 4px;
   }
 }
 
@@ -137,10 +149,6 @@ button.select span.caret {
   top: 14px;
 }
 
-button.send {
-  width: 100%;
-}
-
 div.help-text {
   color: grey;
   font-size: smaller;
@@ -164,9 +172,45 @@ button {
   border-radius: 5px;
 }
 
+table.table tr th {
+  vertical-align: middle;
+  padding: 7px;
+}
+
+@media (max-width: 800px) {
+  table.table tr th {
+    padding: 4px 7px;
+  }
+}
+
+table.table tr td {
+  vertical-align: middle;
+  padding: 7px;
+}
+
+@media (max-width: 800px) {
+  table.table tr td {
+    padding: 4px 7px;
+  }
+}
+
+@media (max-width: 500px) {
+  table.table tr td.icon {
+    width: 1%;
+  }
+}
+
+table.table button {
+  padding: 6px 0px;
+  width: 100%;
+}
+
+div.dropdown {
+  height: 34px;
+}
+
 div.dropdown button.dropdown-toggle {
-  border: 0;
-  padding: 0;
+  padding: 0px 13px 0px 0px;
   border-radius: 5px;
   width: 100%;
   min-height: 34px;
