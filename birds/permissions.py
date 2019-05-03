@@ -35,3 +35,17 @@ class IsRightOwner(permissions.BasePermission):
             return current_user_role == 0
         except:
             return False
+
+class HasProjectRight(permissions.BasePermission):
+    """
+    Custom permission to only allow users with project rights to view project tags and records.
+    """
+    def has_permission(self, request, view):
+        project = Project.objects.get(directory=request.resolver_match.kwargs.get('project_dir'))
+        try:
+            user_project_right = Right.objects.get(user=request.user, project=project)
+            return True
+        except:
+            return False
+        # else:
+        #     return True

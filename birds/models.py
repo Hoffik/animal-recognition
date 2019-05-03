@@ -87,6 +87,7 @@ class Record(models.Model):
         return 'record_files/' + instance.project.directory + '/' + filename
 
     file = models.FileField(upload_to=record_files_path, null=True, blank=True)
+    filename = models.CharField(max_length=50)
     file_on_server = models.BooleanField()
     importance = models.IntegerField(default=1) # Influences probability of record selection. Input for weighted random selection.
     project = models.ForeignKey(
@@ -144,23 +145,23 @@ class Identification(models.Model):
     def __str__(self):
         return str(self.user) + '_' + str(self.record) + '_' + str(self.tag)
 
-@receiver(models.signals.post_delete, sender=Tag)
-def auto_delete_file_on_delete(sender, instance, **kwargs):
-    """
-    Deletes file from filesystem
-    when corresponding `MediaFile` object is deleted.
-    """
-    if instance.image:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
+# @receiver(models.signals.post_delete, sender=Tag)
+# def auto_delete_file_on_delete(sender, instance, **kwargs):
+#     """
+#     Deletes file from filesystem
+#     when corresponding `MediaFile` object is deleted.
+#     """
+#     if instance.image:
+#         if os.path.isfile(instance.image.path):
+#             os.remove(instance.image.path)
 
-@receiver(models.signals.pre_save, sender=Tag)
-def auto_delete_file_on_change(sender, instance, **kwargs):
-    """
-    Deletes old file from filesystem
-    when corresponding `MediaFile` object is updated
-    with new file.
-    """
-    if instance.image:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
+# @receiver(models.signals.pre_save, sender=Tag)
+# def auto_delete_file_on_change(sender, instance, **kwargs):
+#     """
+#     Deletes old file from filesystem
+#     when corresponding `MediaFile` object is updated
+#     with new file.
+#     """
+#     if instance.image:
+#         if os.path.isfile(instance.image.path):
+#             os.remove(instance.image.path)

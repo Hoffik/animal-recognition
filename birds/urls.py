@@ -5,8 +5,9 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 from .views import UserList, ProjectList, RightList, IdentificationList
-from .views import UserDetail, ProjectDetail, RightDetail, IdentificationDetail
-from .views import ProjectListView, ProjectDetailView
+from .views import UserDetail, ProjectDetail, RightDetail
+from .views import RecordTagList, RecordRandom
+from .views import ProjectListView, ProjectTagView, ProjectDetailView
 from . import views
 
 app_name = 'birds'
@@ -15,8 +16,9 @@ app_name = 'birds'
 apps_urls = [
     path('', ProjectListView.as_view(), name='project-list-view'),
     # path('projects/<int:project_id>/', ProjectDetailView.as_view(), name='project-detail-view'),
+    path('<slug:project_dir>/', ProjectTagView.as_view(), name='project-tag-view'),
     path('<slug:project_dir>/edit/', ProjectDetailView.as_view(), name='project-detail-view'),
-    path('<slug:project_dir>/', views.project, name='project'),
+    # path('<slug:project_dir>/', views.project, name='project'),
 
 ]
 
@@ -38,7 +40,9 @@ rest_urls = [
     path('projects/<slug:directory>/', ProjectDetail.as_view(), name='project-detail'),
     path('rights/', RightList.as_view(), name='right-list'),
     path('rights/<int:pk>/', RightDetail.as_view(), name='right-detail'),
-    # path('identifications/', IdentificationList.as_view(), name='identification-list'),
+    path('tags/<slug:project_dir>/<int:record_id>/', RecordTagList.as_view(), name='project-record-tag-list'),
+    path('records/<slug:project_dir>/random/', RecordRandom.as_view(), name='project-record-random'),
+    path('identifications/<slug:project_dir>/', IdentificationList.as_view(), name='project-identification-list'),
     # path('identifications/<int:pk>/', IdentificationDetail.as_view(), name='identification-detail'),
 ]
 

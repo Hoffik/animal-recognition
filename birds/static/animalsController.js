@@ -23,6 +23,53 @@ app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) {
     $scope.loadProjects();
 });
 
+app.controller('ProjectTagCtrl', function($scope, $sce, $filter, $log, $http) {
+
+    // $scope.record = {}
+    // $scope.tags = []
+
+    $scope.getRecord = function(project_dir) {
+        $http.get('/rest_api/records/' + project_dir + '/random/').then(function(response) {
+            $scope.record = response.data;
+            $scope.record.file = $sce.trustAsResourceUrl($scope.record.file);
+        }).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function(response) {
+            $scope.getRecordTags(project_dir);
+        });
+    };
+
+    $scope.getRecordTags = function(project_dir) {
+        $http.get('/rest_api/tags/' + project_dir + '/' + $scope.record.id + '/').then(function(response) {
+            $scope.tags = response.data;
+            // console.log($scope.tags);
+        }).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        });
+    };
+
+    $scope.addIdentification = function(tag_id) {
+        var data = $.param({
+            record: $scope.record.id,
+            tag: tag_id,
+            phase: $scope.record.phase,
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.post('/rest_api/identifications/' + $scope.record.project_dir + '/', data, config).then(function() {
+            $scope.getRecord($scope.record.project_dir);
+        }).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        });
+    }
+});
+
 app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) { 
 
     $scope.updateNewUser = function(username, email, role_name) {
@@ -59,9 +106,6 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
         }, function(response) {
             // $log.log("Method updateProject error " + response.status);
             //handleErrors(response, status, errors);
-        }).then(function() {
-            // $log.log("then function " + right.role + " " + right.project);
-            $scope.getProject(project.directory);
         });
     };
 

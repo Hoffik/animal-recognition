@@ -10,10 +10,30 @@ class IdentificationSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'record', 'tag', 'project', 'phase', 'created')
 
 class TagSerializer(serializers.ModelSerializer):
+    # image = serializers.SerializerMethodField()
 
     class Meta:
         model = Tag
         fields = ('id', 'name', 'prior', 'project', 'image', 'identifications')
+
+    # def get_image(self, obj):
+    #     return obj.image.url
+
+class RecordSerializer(serializers.ModelSerializer):
+    # tags = serializers.SerializerMethodField()
+    project_dir = serializers.ReadOnlyField(source='project.directory')
+    phase = serializers.ReadOnlyField(source='project.phase')
+
+    class Meta:
+        model = Record
+        fields = ('id', 'file', 'project', 'project_dir', 'phase')
+
+    # def get_tags(self, obj):
+    #     return TagSerializer(Tag.objects.filter(weights__in=obj.weights.all()), many=True).data
+    #     tags_with_weights = [weight.tag for weight in obj.weights.all()]
+    #     tags_without_weights = list(Tag.objects.filter(project=obj.project).exclude(id__in=[tag.id for tag in tags_with_weights]))
+    #     all_tags = tags_with_weights + tags_without_weights
+    #     return TagSerializer(all_tags, many=True).data
 
 class RightSerializer(serializers.ModelSerializer):
     # project = serializers.ReadOnlyField(source='project.id')
