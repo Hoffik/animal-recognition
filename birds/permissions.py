@@ -38,7 +38,7 @@ class IsRightOwner(permissions.BasePermission):
 
 class HasProjectRight(permissions.BasePermission):
     """
-    Custom permission to only allow users with project rights to view project tags and records.
+    Custom permission to only allow users with project rights to view project tags, records and identifications.
     """
     def has_permission(self, request, view):
         project = Project.objects.get(directory=request.resolver_match.kwargs.get('project_dir'))

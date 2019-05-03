@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, FormView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from rest_framework import generics
+from rest_framework import generics, response
 from itertools import chain
 import random
 
@@ -87,7 +87,7 @@ class IdentificationList(LoginRequiredMixin, generics.ListCreateAPIView):
     model = Identification
     raise_exception = True
     serializer_class = IdentificationSerializer
-    # permission_classes = [CanCRUDMeal]
+    permission_classes = [HasProjectRight]
 
     def perform_create(self, serializer):
         """Force identification.user to the current user on save"""
@@ -95,7 +95,11 @@ class IdentificationList(LoginRequiredMixin, generics.ListCreateAPIView):
 
     def get_queryset(self):
         project = get_object_or_404(Project, directory=self.kwargs['project_dir'])
-        return Identification.objects.filter(record__in=project.records.all())
+        user_project_right = Right.objects.get(user=self.request.user, project=project)
+        if(user_project_right.get_role_display()=="owner"):
+            return Identification.objects.filter(record__in=project.records.all())
+        else:
+            return Identification.objects.filter(record__in=project.records.all()).filter(user=self.request.user)
 
         # """Filter instances in list based on user rights"""
         # user = self.request.user
