@@ -76,7 +76,8 @@ class Tag(models.Model):
     def tag_images_path(instance, filename):
         return 'tag_images/' + instance.project.directory + '/' + filename
 
-    image = models.ImageField(upload_to=tag_images_path, null=True, blank=True)
+    # image = models.ImageField(upload_to=tag_images_path, null=True, blank=True)
+    imagename = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -86,7 +87,7 @@ class Record(models.Model):
     def record_files_path(instance, filename):
         return 'record_files/' + instance.project.directory + '/' + filename
 
-    file = models.FileField(upload_to=record_files_path, null=True, blank=True)
+    # file = models.FileField(upload_to=record_files_path, null=True, blank=True)
     filename = models.CharField(max_length=50)
     file_on_server = models.BooleanField()
     importance = models.IntegerField(default=1) # Influences probability of record selection. Input for weighted random selection.

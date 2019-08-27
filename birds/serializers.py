@@ -14,7 +14,7 @@ class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('id', 'name', 'prior', 'project', 'image', 'identifications')
+        fields = ('id', 'name', 'prior', 'project', 'imagename', 'identifications') #'image'
 
     # def get_image(self, obj):
     #     return obj.image.url
@@ -26,7 +26,7 @@ class RecordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Record
-        fields = ('id', 'file', 'project', 'project_dir', 'phase')
+        fields = ('id', 'filename', 'file_on_server', 'project', 'project_dir', 'phase') #'file'
 
     # def get_tags(self, obj):
     #     return TagSerializer(Tag.objects.filter(weights__in=obj.weights.all()), many=True).data
