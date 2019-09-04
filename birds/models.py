@@ -74,9 +74,10 @@ class Tag(models.Model):
     )
 
     def tag_images_path(instance, filename):
-        return 'tag_images/' + instance.project.directory + '/' + filename
+        return 'tag_images/' + instance.project.directory + '/' + imagename
 
     image = models.ImageField(upload_to=tag_images_path, null=True, blank=True)
+    imagename = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name

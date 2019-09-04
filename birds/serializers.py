@@ -11,10 +11,14 @@ class IdentificationSerializer(serializers.ModelSerializer):
 
 class TagSerializer(serializers.ModelSerializer):
     # image = serializers.SerializerMethodField()
+    imagepath = serializers.SerializerMethodField()
 
     class Meta:
         model = Tag
-        fields = ('id', 'name', 'prior', 'project', 'image', 'identifications')
+        fields = ('id', 'name', 'prior', 'image', 'imagename', 'imagepath', 'project', 'identifications')
+
+    def get_imagepath(self, obj):
+        return 'tag_images/' + obj.project.directory + '/' + obj.imagename
 
     # def get_image(self, obj):
     #     return obj.image.url
@@ -23,10 +27,14 @@ class RecordSerializer(serializers.ModelSerializer):
     # tags = serializers.SerializerMethodField()
     project_dir = serializers.ReadOnlyField(source='project.directory')
     phase = serializers.ReadOnlyField(source='project.phase')
+    filepath = serializers.SerializerMethodField()
 
     class Meta:
         model = Record
-        fields = ('id', 'file', 'project', 'project_dir', 'phase')
+        fields = ('id', 'file', 'filename', 'filepath', 'project', 'project_dir', 'phase')
+
+    def get_filepath(self, obj):
+        return 'record_files/' + obj.project.directory + '/' + obj.filename
 
     # def get_tags(self, obj):
     #     return TagSerializer(Tag.objects.filter(weights__in=obj.weights.all()), many=True).data
