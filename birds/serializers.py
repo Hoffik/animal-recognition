@@ -26,12 +26,12 @@ class TagSerializer(serializers.ModelSerializer):
 class RecordSerializer(serializers.ModelSerializer):
     # tags = serializers.SerializerMethodField()
     project_dir = serializers.ReadOnlyField(source='project.directory')
-    phase = serializers.ReadOnlyField(source='project.phase')
+    project_phase = serializers.ReadOnlyField(source='project.phase')
     filepath = serializers.SerializerMethodField()
 
     class Meta:
         model = Record
-        fields = ('id', 'file', 'filename', 'filepath', 'project', 'project_dir', 'phase')
+        fields = ('id', 'file', 'filename', 'filepath', 'project', 'project_dir', 'project_phase')
 
     def get_filepath(self, obj):
         return 'record_files/' + obj.project.directory + '/' + obj.filename

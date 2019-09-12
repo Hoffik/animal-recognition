@@ -12,8 +12,43 @@ app.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 });
 
+
+/**
+ * @this vm
+ * @ngdoc controller
+ * @name animalsApp.controller:ProjectListCtrl
+ *
+ * @description
+ * Takes care of Project list application page.
+ * Serves list of Projects.
+ */
 app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) { 
 
+    /**
+     * @ngdoc method
+     * @name ProjectListCtrl#loadProjects
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectListCtrl
+     *
+     * @summary
+     * Loads Project list.
+     *
+     * @description
+     * Loads list of animal recognition Projects.
+     * 
+     * @scope   {array}     projects                        List of Projects.
+     * @scope   {object}    project                         Animal recognition project.
+     * @scope   {number}    project.id                      Project identification. Private key.
+     * @scope   {string}    project.name                    Project name.
+     * @scope   {string}    project.directory               Restricted Project name suitable for url address and filepath. Unique.
+     * @scope   {string}    project.current_user_right      Logged-in user Right in Project (if any).
+     * @scope   {string}    project.file_type               File format of animal Records (image, audio or video).
+     * @scope   {number}    project.right_count             Sum of Users with Right in Project.
+     * @scope   {number}    project.tag_count               Sum of Tags in Project.
+     * @scope   {number}    project.record_count            Sum of Records in Project.
+     * @scope   {number}    project.identification_count    Sum of Identifications in Project. 
+     */
     $scope.loadProjects = function() {
         $http.get('/rest_api/projects/').then(function(response) {
             $scope.projects = response.data;
@@ -23,33 +58,105 @@ app.controller('ProjectListCtrl', function($scope, $filter, $log, $http) {
     $scope.loadProjects();
 });
 
+/**
+ * @this vm
+ * @ngdoc controller
+ * @name animalsApp.controller:ProjectTagCtrl
+ *
+ * @description
+ * Takes care of main application page.
+ * Serves a random animal Record with available Tags.
+ * Saves user defined Identification.
+ */
 app.controller('ProjectTagCtrl', function($scope, $sce, $filter, $log, $http) {
 
-    // $scope.record = {}
-    // $scope.tags = []
-
-    $scope.getRecord = function(project_dir) {
-        $http.get('/rest_api/records/' + project_dir + '/random/').then(function(response) {
-            $scope.record = response.data;
-            $scope.record.file = $sce.trustAsResourceUrl($scope.record.file);
-        }).catch(function(error) {
+    /**
+     * @ngdoc method
+     * @name ProjectTagCtrl#getRandomRecord
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectTagCtrl
+     * 
+     * @summary
+     * Loads random animal Record from the Project.
+     *
+     * @description
+     * Loads random animal Record (image, audio or video) from the Project.
+     * Probability of record selection is based on their importance value. 
+     *
+     * @param   {string}    project_dir             Project directory. Unique.
+     * 
+     * @scope   {object}    record                  Record of animal in image, audio or video format.
+     * @scope   {number}    record.id               Record identification. Private key.
+     * @scope   {string}    record.filepath         Filepath and name to Record file stored in media folder.
+     * @scope   {number}    record.project          Record project.
+     * @scope   {number}    record.project_dir      Record project directory. Unique.
+     * @scope   {array}     record.project_phase    Record project phase.
+     */
+    $scope.getRandomRecord = function(project_dir) {
+        $http.get('/rest_api/records/' + project_dir + '/random/').catch(function(error) {
             console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
         }).then(function(response) {
+            $scope.record = response.data;
+            $scope.record.file = $sce.trustAsResourceUrl($scope.record.file);
             $scope.getRecordTags(project_dir);
         });
     };
 
+    /**
+     * @ngdoc method
+     * @name ProjectTagCtrl#getRecordTags
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectTagCtrl
+     * 
+     * @summary
+     * Loads Tags of the given Project.
+     *
+     * @description
+     * Loads Tags available for the given Project.
+     * Tags order is defined by their weight for given Record if available.
+     * Remaining Tags without weight are ordered by their prior value.
+     *
+     * @param   {string}    project_dir         Project directory. Private key.
+     * 
+     * @scope   {array}     tags                List of Tag objects.
+     * @scope   {object}    tag                 Possible choice (most often animal species name) for Record Identification.
+     * @scope   {number}    tag.id              Tag identification. Private key.
+     * @scope   {string}    tag.name            Tag name.
+     * @scope   {string}    tag.imagepath       Filepath and name to Tag image stored in media folder.
+     * @scope   {number}    tag.project         Tag project.
+     * @scope   {number}    tag.prior           Tag prior defining order in Tags list. 
+     * @scope   {array}     tag.identifications List of executed Identifications with given Tag.
+     */
     $scope.getRecordTags = function(project_dir) {
-        $http.get('/rest_api/tags/' + project_dir + '/' + $scope.record.id + '/').then(function(response) {
-            $scope.tags = response.data;
-            // console.log($scope.tags);
-        }).catch(function(error) {
+        $http.get('/rest_api/tags/' + project_dir + '/' + $scope.record.id + '/').catch(function(error) {
             console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
+        }).then(function(response) {
+            $scope.tags = response.data;
         });
     };
 
+    /**
+     * @ngdoc method
+     * @name ProjectTagCtrl#addIdentification
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectTagCtrl
+     * 
+     * @summary
+     * Creates new Identification.
+     *
+     * @description
+     * Creates new Identification.
+     * I.e. connects input Tag to examined Record. 
+     *
+     * @param   {number}    tag_id      Tag identification. Private key.
+     * 
+     * @return  {Object}                Created Identification.
+     */
     $scope.addIdentification = function(tag_id) {
         var data = $.param({
             record: $scope.record.id,
@@ -61,17 +168,116 @@ app.controller('ProjectTagCtrl', function($scope, $sce, $filter, $log, $http) {
                 'Content-Type': 'application/x-www-form-urlencoded;'
             }
         }
-        return $http.post('/rest_api/identifications/' + $scope.record.project_dir + '/', data, config).then(function() {
-            $scope.getRecord($scope.record.project_dir);
-        }).catch(function(error) {
+        return $http.post('/rest_api/identifications/' + $scope.record.project_dir + '/', data, config).catch(function(error) {
             console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
+        }).then(function() {
+            $scope.getRandomRecord($scope.record.project_dir);
         });
     }
 });
 
+/**
+ * @this vm
+ * @ngdoc controller
+ * @name animalsApp.controller:ProjectDetailCtrl
+ *
+ * @description
+ * Takes care of Project detail application page.
+ * Serves Project details.
+ * Saves Project updates.
+ */
 app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) { 
 
+    /**
+     * @ngdoc method
+     * @name ProjectDetailCtrl#getProject
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectDetailCtrl
+     * 
+     * @summary
+     * Loads Project.
+     *
+     * @description
+     * Loads Project defined by input Project directory.
+     *
+     * @param   {string}    dir                             Project directory. Unique.
+     * 
+     * @scope   {object}    project                         Animal recognition project.
+     * @scope   {number}    project.id                      Project identification. Private key.
+     * @scope   {string}    project.name                    Project name.
+     * @scope   {string}    project.directory               Restricted Project name suitable for url address and filepath. Unique.
+     * @scope   {string}    project.current_user_right      Logged-in user Right in Project (if any).
+     * @scope   {string}    project.file_type               File format of animal Records (image, audio or video).
+     * @scope   {number}    project.right_count             Sum of Users with Right in Project.
+     * @scope   {number}    project.tag_count               Sum of Tags in Project.
+     * @scope   {number}    project.record_count            Sum of Records in Project.
+     * @scope   {number}    project.identification_count    Sum of Identifications in Project.
+     */
+    $scope.getProject = function(dir) {
+        $http.get('/rest_api/projects/' + dir + '/').catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function(response) {
+            $scope.project = response.data;
+            $scope.new_user_role = "layman";
+        });
+    };
+
+    /**
+     * @ngdoc method
+     * @name ProjectDetailCtrl#updateProject
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectDetailCtrl
+     * 
+     * @summary
+     * Updates Project.
+     *
+     * @description
+     * Updates input Project. 
+     *
+     * @param   {Object}    project     Project to be updated.
+     * 
+     * @return  {Object}                Updated Project.
+     */
+    $scope.updateProject = function(project) {
+        var data = $.param({
+            name: project.name,
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.put('/rest_api/projects/' + project.directory + '/', data, config).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        });
+    };
+
+    /**
+     * @ngdoc method
+     * @name ProjectDetailCtrl#updateNewUser
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectDetailCtrl
+     * 
+     * @summary
+     * Updates $scope new_user information.
+     *
+     * @description
+     * Updates $scope new_user and new_user_role_name information.
+     * new_user and new_user_role_name are auxiliary objects used for creating new User Right in Project.
+     *
+     * @param   {string}    [username]                      new_user username.
+     * @param   {string}    [email]                         new_user email.
+     * @param   {string}    [role_name]                     new_user role in Project.
+     * 
+     * @scope   {object}    [new_user]                      Updated new_user.
+     * @scope   {string}    [new_user_role_name]            Updated new_user role.
+     */
     $scope.updateNewUser = function(username, email, role_name) {
         if (username) {
             $scope.new_user = $scope.project.users_wo_rights.find(user_wo_rights => user_wo_rights.username === username);
@@ -82,35 +288,27 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
         }
     }
 
-    $scope.getProject = function(dir) {
-        $http.get('/rest_api/projects/' + dir + '/').then(function(response) {
-            $scope.project = response.data;
-            $scope.new_user_role = "layman";
-        }).catch(function(error) {
-            console.log(error.data.detail, error);
-            $scope.error_message = error.data.detail;
-        });
-    };
-
-    $scope.updateProject = function(project) {
-        var data = $.param({
-            name: project.name,
-        });
-        var config = {
-            headers : {
-                'Content-Type': 'application/x-www-form-urlencoded;'
-            }
-        }
-        return $http.put('/rest_api/projects/' + project.directory + '/', data, config).then(function(response) {
-            angular.extend(project, response);
-        }, function(response) {
-            // $log.log("Method updateProject error " + response.status);
-            //handleErrors(response, status, errors);
-        });
-    };
-
+    /**
+     * @ngdoc method
+     * @name ProjectDetailCtrl#addRight
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectDetailCtrl
+     * 
+     * @summary
+     * Creates new User Right for Project.
+     *
+     * @description
+     * Creates new User Right for Project.
+     * Gives User Right to Tag animal Records (i.e. create Identifications) in Project (and possibly edit Project).
+     * Sets auxiliary objects new_user and new_user_role_name to undefined.
+     *
+     * @scope   {object}    [new_user]              new_user set to undefined.
+     * @scope   {string}    [new_user_role_name]    new_user role set to undefined.
+     * 
+     * @return  {Object}                            Created User Right.
+     */
     $scope.addRight = function() {
-        // console.log($scope.new_user + " " + $scope.new_user_role_name);
         if (!$scope.new_user || !$scope.new_user_role_name) {
             throw "Input user name and role.";
         }
@@ -124,11 +322,9 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
                 'Content-Type': 'application/x-www-form-urlencoded;'
             }
         }
-        return $http.post('/rest_api/rights/', data, config).then(function(response) {
-            angular.extend( $scope.new_user, response);
-        }, function(response) {
-            // $log.log("UserUtils create error " + response.status);
-            //handleErrors(response, status, errors);
+        return $http.post('/rest_api/rights/', data, config).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
         }).then(function() {
             $scope.getProject($scope.project.directory);
             $scope.new_user = undefined;
@@ -136,6 +332,24 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
         });
     };
 
+    /**
+     * @ngdoc method
+     * @name ProjectDetailCtrl#updateRight
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectDetailCtrl
+     * 
+     * @summary
+     * Updates User Right in Project.
+     *
+     * @description
+     * Changes User role in Project.
+     *
+     * @param   {object}    right       User Right to be updated.
+     * @param   {string}    role_name   New User role in Project.
+     * 
+     * @return  {Object}                Updated User Right.
+     */
     $scope.updateRight = function(right, role_name) {
         var data = $.param({
             project: $scope.project.id,
@@ -147,21 +361,34 @@ app.controller('ProjectDetailCtrl', function($scope, $filter, $log, $http) {
                 'Content-Type': 'application/x-www-form-urlencoded;'
             }
         }
-        return $http.put('/rest_api/rights/' + right.id + '/', data, config).then(function(response) {
-            angular.extend(right, response);
-        }, function(response) {
-            // $log.log("Method updateRight error " + response.status);
-            //handleErrors(response, status, errors);
+        return $http.put('/rest_api/rights/' + right.id + '/', data, config).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
         }).then(function() {
-            // $log.log("then function " + right.role + " " + right.project);
             $scope.getProject(right.project_dir);
         });
     };
 
+    /**
+     * @ngdoc method
+     * @name ProjectDetailCtrl#deleteRight
+     *
+     * @methodOf
+     * animalsApp.controller:ProjectDetailCtrl
+     * 
+     * @summary
+     * Removes User Right from Project.
+     *
+     * @description
+     * Removes User Right from Project.
+     *
+     * @param   {object}    right   User Right to be removed.
+     */
     $scope.deleteRight = function(right) {
-        // $log.log("DELETE - ID: " + right.id + " role: " + right.role + " " + right.role_name);
-        return $http.delete('/rest_api/rights/' + right.id + '/').then(function() {
-            // $log.log("then function " + right.role + " " + right.project);
+        return $http.delete('/rest_api/rights/' + right.id + '/').catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function() {
             $scope.getProject(right.project_dir);
         });
     };

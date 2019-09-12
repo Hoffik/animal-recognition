@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<main ng-controller="ProjectTagCtrl" ng-init="getRecord('{{ project_dir }}')" ng-cloak>
+<main ng-controller="ProjectTagCtrl" ng-init="getRandomRecord('{{ project_dir }}')" ng-cloak>
 
 <div ng-show="error_message">[[ error_message ]]</div>
 <div ng-hide="error_message">
