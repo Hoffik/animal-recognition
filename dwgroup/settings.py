@@ -102,6 +102,11 @@ DATABASES = {
 AUTH_USER_MODEL = 'birds.User'
 LOGIN_REDIRECT_URL = 'birds:project-list-view'
 
+
+# Sign-up confirmation mail
+# https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html#sign-up-with-confirmation-mail
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'    # For debug only
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 

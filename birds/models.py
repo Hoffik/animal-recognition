@@ -1,13 +1,22 @@
 from django.db import models
-from django.dispatch import receiver
 import os
 from django.core.validators import validate_slug
 from .validators import KeywordValidator
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class User(AbstractUser):
+    email_confirmed = models.BooleanField(default=False)
+
     def __str__(self):
         return self.username
+
+# @receiver(post_save, sender=User)
+# def update_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         User.objects.create(user=instance)
+#     instance.profile.save()
 
 class Project(models.Model):
     """Animal recognition project"""

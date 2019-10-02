@@ -25,6 +25,8 @@ apps_urls = [
 # Authentication views
 auth_urls = [
     path('signup/', views.signup, name='signup'), #views.SignUp.as_view()
+    path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
+    path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     # path('logged_user/', views.get_logged_user, name='logged-user-data'),
