@@ -116,6 +116,7 @@ LOGIN_REDIRECT_URL = 'birds:project-list-view'
 # https://simpleit.rocks/python/django/adding-email-to-django-the-easiest-way/
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
