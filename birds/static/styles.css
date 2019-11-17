@@ -94,26 +94,33 @@ div.container-part-1-2 {
   }
 }
 
-div.form-group {
-  display: table;
+form {
+  margin-bottom: 20px;
+}
+
+form div.form-group {
   margin-bottom: 14px;
 }
 
 @media (max-width: 800px) {
-  div.form-group {
+  form div.form-group {
     margin-bottom: 4px;
   }
 }
 
-div.form-group div.form-label {
+form div.form-group div.form-label {
   display: table-cell;
   text-align: right;
 }
 
-div.form-group div.form-value {
+form div.form-group div.form-value {
   display: table-cell;
   width: 100%;
   vertical-align: middle;
+}
+
+div.form-nav {
+  text-align: center;
 }
 
 label {

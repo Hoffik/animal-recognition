@@ -27,8 +27,13 @@ auth_urls = [
     path('signup/', views.signup, name='signup'), #views.SignUp.as_view()
     path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
     path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+	path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),   # override default logout from django.contrib.auth.urls
+	path('password_reset/', auth_views.PasswordResetView.as_view(success_url='done/'), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<slug:uidb64>/<slug:token>/', auth_views.PasswordResetConfirmView.as_view(success_url='../../done/'), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    # path('', include('django.contrib.auth.urls')),  # login, logout, password_change, password_change_done, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
     # path('logged_user/', views.get_logged_user, name='logged-user-data'),
     path('profile/', views.profile, name='profile'),
 ]

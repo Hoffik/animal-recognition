@@ -2,17 +2,19 @@
 
 {% block content %}
 
-<div ng-controller="" class="form-container">
+<main ng-controller="" class="form-container">
 
-<h1>[[ user.username ]]</h1>
+    <h1>[[ user.username ]]</h1>
 
-<form  class="form-inline">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" ng-model="loggedUser.username">
-    </div>
-    <button ng-click="updateUser(loggedUser)">Update</button>
-</form> 
+    <form  class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" ng-model="loggedUser.username">
+        </div>
+        <button ng-click="updateUser(loggedUser)">Update</button>
+    </form>
+
+<div>
 
 {% endblock content %}
