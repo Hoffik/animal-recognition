@@ -2,7 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, FormView
-from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
@@ -88,7 +90,19 @@ def activate(request, uidb64, token):
         return render(request, 'registration/account_activation_invalid.html')
 
 def profile(request):
-    return HttpResponse("Your username is %s." % request.user.username)
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Validates user's session with the new password
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('birds:profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'registration/profile.html', {'form': form})
+    # return HttpResponse("Your username is %s." % request.user.username)
 
 # Rest API views
 class IdentificationList(LoginRequiredMixin, generics.ListCreateAPIView):

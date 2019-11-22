@@ -5,15 +5,23 @@
 <main ng-controller="" class="form-container">
 
     <h1>[[ user.username ]]</h1>
-
-    <form  class="form-inline">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" ng-model="loggedUser.username">
-        </div>
-        <button ng-click="updateUser(loggedUser)">Update</button>
-    </form>
+	
+	<form method="post">
+		{% csrf_token %}
+		{% for field in form %}
+		<div class="form-group">
+			{{ field.label_tag }}<br>
+			{{ field }}
+			{% if field.help_text %}
+				<div class="help-text">{{ field.help_text }}</div>
+			{% endif %}
+			{% for error in field.errors %}
+				<p class="error-message">{{ error }}</p>
+			{% endfor %}
+		</div>
+		{% endfor %}
+		<button type="submit">Change password</button>
+	</form>
 
 <div>
 

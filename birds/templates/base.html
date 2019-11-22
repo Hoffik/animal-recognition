@@ -26,8 +26,8 @@
                 <div>Hi <a href="{% url 'birds:profile' %}">{{user.username}}</a></div>
                 <div><a href="{% url 'birds:logout' %}">Logout</a></div>
             {% else %}
-                <!-- <div><a href="{% url 'birds:login' %}">Login</a></div>
-                <div><a href="{% url 'birds:signup' %}">Sign up</a></div> -->
+                <div><a href="{% url 'birds:login' %}">Login</a></div>
+                <div><a href="{% url 'birds:signup' %}">Sign up</a></div>
             {% endif %}
         </nav>
 
