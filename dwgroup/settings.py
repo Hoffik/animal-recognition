@@ -15,16 +15,23 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Load environment variables from .env for local development
+# load_dotenv do not override existing System environment variables.
+# Variables are replaced from the environment first or from other values in the .env file if the variable is not present in the environment.
+# https://pypi.org/project/python-dotenv/
+from dotenv import load_dotenv
+load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'b8s8usn-z#0*3#8rt^75ee_n$p$e&3y6v*32#$&l516!gvy)%z'
-import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'b8s8usn-z#0*3#8rt^75ee_n$p$e&3y6v*32#$&l516!gvy)%z')
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'b8s8usn-z#0*3#8rt^75ee_n$p$e&3y6v*32#$&l516!gvy)%z')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+# DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = os.getenv('DJANGO_DEBUG') != 'False'
 
 ALLOWED_HOSTS = ['animal-recognition.herokuapp.com', '127.0.0.1']
 
@@ -32,6 +39,8 @@ ALLOWED_HOSTS = ['animal-recognition.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'birds.apps.BirdsConfig',
+
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'birds.apps.BirdsConfig',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +109,15 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'birds.User'
 LOGIN_REDIRECT_URL = 'birds:project-list-view'
+
+
+# Sign-up confirmation mail
+# https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html#sign-up-with-confirmation-mail
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'    # For debug only
+# https://simpleit.rocks/python/django/adding-email-to-django-the-easiest-way/
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

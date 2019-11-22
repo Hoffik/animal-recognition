@@ -1,10 +1,15 @@
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.template import loader
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, FormView
-from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
 
 from rest_framework import generics, response
 from itertools import chain
@@ -13,46 +18,9 @@ import random
 from .models import User, Project, Right, Tag, Record, Weight, Identification
 from .serializers import UserSerializer, BasicProjectSerializer, ProjectSerializer, RightSerializer, TagSerializer, RecordSerializer, IdentificationSerializer
 from .forms import SignUpForm
+from .tokens import account_activation_token
 from .permissions import IsProjectOwner, IsRightOwner, HasProjectRight
 
-# Main page
-# def project(request, project_dir):
-#     try:
-#         identified_tag = get_object_or_404(Tag, pk=request.POST['tag'])
-#         current_record = get_object_or_404(Record, pk=request.POST['record'])
-#         project_phase = current_record.project.phase
-#         identification = Identification(record=current_record, tag=identified_tag, phase=project_phase, user=request.user)
-#         identification.save()
-#         return HttpResponseRedirect(request.path_info)
-#     except:
-#         random_record = None
-#         all_tags = None
-#         message = None
-#         project = Project.objects.filter(directory=project_dir)
-#         if len(project) == 0:
-#             context = { 'message': "There is no project in " + project_dir + " directory." }
-#             return render(request, 'index.html', context)
-        
-#         project = project[0]
-#         records = Record.objects.filter(project__directory=project_dir, file_on_server=True)
-#         if len(records) == 0:
-#             context = { 'message': "There is no record in " + project.name + " project." }
-#             return render(request, 'index.html', context)
-        
-#         probabilities = records.values_list('importance', flat=True)
-#         random_record = random.choices(records, weights=probabilities)[0]
-#         tags_with_weights = [weight.tag for weight in random_record.weights.all()]
-#         tags_without_weights = list(Tag.objects.filter(project=project).exclude(id__in=[tag.id for tag in tags_with_weights]))
-#         all_tags = tags_with_weights + tags_without_weights
-#         if len(all_tags) == 0:
-#             context = { 'message': "There is no tag in " + project.name + " project." }
-#         else:
-#             context = {
-#                 'project': project,
-#                 'random_record': random_record,
-#                 'tags': all_tags,
-#             }
-#         return render(request, 'index.html', context)
 
 # Application views
 class ProjectListView(TemplateView):
@@ -64,23 +32,77 @@ class ProjectTagView(LoginRequiredMixin, TemplateView):
 class ProjectDetailView(LoginRequiredMixin, TemplateView):
     template_name = "project_detail.html"
 
+
 # Authentication views
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             raw_password = form.cleaned_data.get('password1')
+#             user = authenticate(username=username, password=raw_password)
+#             login(request, user)
+#             return redirect('birds:project-list-view')
+#     else:
+#         form = SignUpForm()
+#     return render(request, 'registration/signup.html', {'form': form})
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('birds:project-list-view')
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            subject = 'Activate Your Animals Recognition account'
+            message = render_to_string('registration/account_activation_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            user.email_user(subject, message)
+            return redirect('birds:account_activation_sent')  # review
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-def profile(request):
-    return HttpResponse("Your username is %s." % request.user.username)
+def account_activation_sent(request):
+    # return HttpResponse("Please click on the link sent to your e-mail to complete the registration.")
+    return render(request, 'registration/account_activation_sent.html')
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.email_confirmed = True
+        user.save()
+        login(request, user)
+        return redirect('birds:project-list-view')
+    else:
+        return render(request, 'registration/account_activation_invalid.html')
+
+# def profile(request):
+#     if request.method == 'POST':
+#         form = PasswordChangeForm(request.user, request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             update_session_auth_hash(request, user)  # Validates user's session with the new password
+#             messages.success(request, 'Your password was successfully updated!')
+#             return redirect('birds:profile')
+#         else:
+#             messages.error(request, 'Please correct the error below.')
+#     else:
+#         form = PasswordChangeForm(request.user)
+#     return render(request, 'registration/profile.html', {'form': form})
+#     # return HttpResponse("Your username is %s." % request.user.username)
 
 # Rest API views
 class IdentificationList(LoginRequiredMixin, generics.ListCreateAPIView):

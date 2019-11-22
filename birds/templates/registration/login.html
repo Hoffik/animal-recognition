@@ -2,27 +2,32 @@
 
 {% block content %}
 
-<div ng-controller="" class="form-container">
+<main ng-controller="" class="form-container">
 
     <h1>Login</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group">
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.help_text %}
-                <div class="help-text">{{ field.help_text }}</div>
-            {% endif %}
-            {% for error in field.errors %}
-                <p class="error-message">{{ error }}</p>
-            {% endfor %}
-        </div>
-        {% endfor %}
-        <button type="submit">Login</button>
-    </form>
+	<form method="post">
+		{% csrf_token %}
+		{% for field in form %}
+		<div class="form-group">
+			{{ field.label_tag }}<br>
+			{{ field }}
+			{% if field.help_text %}
+				<div class="help-text">{{ field.help_text }}</div>
+			{% endif %}
+			{% for error in field.errors %}
+				<p class="error-message">{{ error }}</p>
+			{% endfor %}
+		</div>
+		{% endfor %}
+		<button type="submit">Login</button>
+	</form>
+	
+	<div class="form-nav">
+		<p>Lost username or password? <a href="{% url 'birds:password_reset' %}">Password reset</a></p>
+		<p>Don't have and account? <a href="{% url 'birds:signup' %}">Sign up</a></p>
+	</div>
 
-</div>
+</main>
 
 {% endblock %}
