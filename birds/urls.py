@@ -37,7 +37,7 @@ auth_urls = [
 	path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name="password_change_done"),
     # path('', include('django.contrib.auth.urls')),  # login, logout, password_change, password_change_done, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
     # path('logged_user/', views.get_logged_user, name='logged-user-data'),
-    path('profile/', views.profile, name='profile'),
+    # path('profile/', views.profile, name='profile'),
 ]
 
 # Rest API views

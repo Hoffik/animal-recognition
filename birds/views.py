@@ -89,20 +89,20 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'registration/account_activation_invalid.html')
 
-def profile(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Validates user's session with the new password
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('birds:profile')
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'registration/profile.html', {'form': form})
-    # return HttpResponse("Your username is %s." % request.user.username)
+# def profile(request):
+#     if request.method == 'POST':
+#         form = PasswordChangeForm(request.user, request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             update_session_auth_hash(request, user)  # Validates user's session with the new password
+#             messages.success(request, 'Your password was successfully updated!')
+#             return redirect('birds:profile')
+#         else:
+#             messages.error(request, 'Please correct the error below.')
+#     else:
+#         form = PasswordChangeForm(request.user)
+#     return render(request, 'registration/profile.html', {'form': form})
+#     # return HttpResponse("Your username is %s." % request.user.username)
 
 # Rest API views
 class IdentificationList(LoginRequiredMixin, generics.ListCreateAPIView):
