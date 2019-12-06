@@ -28,13 +28,17 @@ class RecordSerializer(serializers.ModelSerializer):
     project_dir = serializers.ReadOnlyField(source='project.directory')
     project_phase = serializers.ReadOnlyField(source='project.phase')
     filepath = serializers.SerializerMethodField()
+    filetype = serializers.SerializerMethodField()
 
     class Meta:
         model = Record
-        fields = ('id', 'file', 'filename', 'filepath', 'project', 'project_dir', 'project_phase')
+        fields = ('id', 'file', 'filename', 'filepath', 'filetype', 'project', 'project_dir', 'project_phase')
 
     def get_filepath(self, obj):
         return 'record_files/' + obj.project.directory + '/' + obj.filename
+    
+    def get_filetype(self, obj):
+        return obj.project.get_file_type_display()
 
     # def get_tags(self, obj):
     #     return TagSerializer(Tag.objects.filter(weights__in=obj.weights.all()), many=True).data

@@ -89,7 +89,8 @@ class Tag(models.Model):
     imagename = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.name + " - " + str(self.project)
+        # return self.name
 
 class Record(models.Model):
     """Records of animals in image, audio or video format"""
@@ -107,7 +108,8 @@ class Record(models.Model):
     )
 
     def __str__(self):
-        return "File: " + os.path.basename(str(self.file.name))
+        return self.filename + " - " + str(self.project) + " (" + str(self.file_on_server) + ")"
+        # return "File: " + os.path.basename(str(self.file.name))
 
 class Weight(models.Model):
     """Record weights for each tag. If no weight for a Tag is available, prior is used."""

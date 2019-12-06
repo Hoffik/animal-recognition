@@ -88,7 +88,9 @@ app.controller('ProjectTagCtrl', function($scope, $sce, $filter, $log, $http) {
      * 
      * @scope   {object}    record                  Record of animal in image, audio or video format.
      * @scope   {number}    record.id               Record identification. Private key.
-     * @scope   {string}    record.filepath         Filepath and name to Record file stored in media folder.
+	 * @scope   {string}    record.filename         Filename of the Record file stored in media folder.
+     * @scope   {string}    record.filepath         Filepath and name to the Record file stored in media folder.
+	 * @scope   {string}    record.filetype         Filetype of the Record file stored in media folder.
      * @scope   {number}    record.project          Record project.
      * @scope   {number}    record.project_dir      Record project directory. Unique.
      * @scope   {array}     record.project_phase    Record project phase.
