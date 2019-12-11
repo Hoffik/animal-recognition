@@ -155,7 +155,7 @@ class Identification(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.user) + '_' + str(self.record) + '_' + str(self.tag)
+        return str(self.user) + ' - ' + str(self.record.filename) + ' - ' + str(self.tag)
 
 # @receiver(models.signals.post_delete, sender=Tag)
 # def auto_delete_file_on_delete(sender, instance, **kwargs):

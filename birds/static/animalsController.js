@@ -160,17 +160,20 @@ app.controller('ProjectTagCtrl', function($scope, $sce, $filter, $log, $http) {
      * @return  {Object}                Created Identification.
      */
     $scope.addIdentification = function(tag_id) {
+        console.log("rec id: " + $scope.record.id + "; tag id: " + tag_id + "; rec phase: " + $scope.record.phase);
         var data = $.param({
             record: $scope.record.id,
             tag: tag_id,
-            phase: $scope.record.phase,
+            phase: $scope.record.project_phase,
         });
+        console.log("data: " + data);
         var config = {
             headers : {
                 'Content-Type': 'application/x-www-form-urlencoded;'
             }
         }
         return $http.post('/rest_api/identifications/' + $scope.record.project_dir + '/', data, config).catch(function(error) {
+            console.log("data: " + data);
             console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
         }).then(function() {
