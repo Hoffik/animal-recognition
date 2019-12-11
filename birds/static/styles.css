@@ -39,6 +39,16 @@ nav {
   }
 }
 
+div.record-container img, div.record-container video {
+  max-width: 100%;
+  max-height: 50vh;
+}
+
+div.record-container audio {
+  width: 60%;
+  min-width: 240px;
+}
+
 div.tag-container {
   padding-right: 0px;
   padding-left: 0px;

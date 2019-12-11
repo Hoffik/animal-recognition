@@ -39,6 +39,17 @@ nav {
 
 
 // Tag
+div.record-container {
+    img, video {
+        max-width: 100%;
+        max-height: 50vh;
+    }
+    audio {
+        width: 60%;
+        min-width: 240px;
+    }
+}
+
 div.tag-container {
     padding-right: 0px;
     padding-left: 0px;

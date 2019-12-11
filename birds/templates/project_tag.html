@@ -10,23 +10,23 @@
 
 
 
-	<div class="jumbotron text-center" ng-switch="record.filetype">
+	<div class="jumbotron text-center record-container" ng-switch="record.filetype">
 		<div ng-switch-when="image">
 			<p>Record #[[ record.id ]] from [[ project.name ]] project. [[ record.file.url ]]</p>
-			<img data-ng-src="{% get_media_prefix %}[[ record.filepath ]]" alt="[[ record.filename ]]" style="width: 60%; min-width: 240px;">
+			<img class="record" data-ng-src="{% get_media_prefix %}[[ record.filepath ]]" alt="[[ record.filename ]]">
 		</div>
 		<div ng-switch-when="audio">
 			<p>Record #[[ record.id ]] from [[ project.name ]] project. [[ record.file.url ]]</p>
-			<audio data-ng-src="{% get_media_prefix %}[[ record.filepath ]]" controls preload="auto" style="width: 60%; min-width: 240px;">
+			<audio class="record" data-ng-src="{% get_media_prefix %}[[ record.filepath ]]" controls preload="auto">
 				Your browser does not support the audio element.
 			</audio>
-			{% comment %} <audio data-ng-src="[[ record.file ]]" controls preload="auto" style="width: 60%; min-width: 240px;">
+			{% comment %} <audio data-ng-src="[[ record.file ]]" controls preload="auto">
 				Your browser does not support the audio element.
 			</audio> {% endcomment %}
 		</div>
 		<div ng-switch-when="video">
 			<p>Record #[[ record.id ]] from [[ project.name ]] project. [[ record.file.url ]]</p>
-			<video data-ng-src="{% get_media_prefix %}[[ record.filepath ]]" controls preload="auto" style="width: 60%; min-width: 240px;">
+			<video class="record" data-ng-src="{% get_media_prefix %}[[ record.filepath ]]" controls preload="auto">
 			  	Your browser does not support the video element.
 			</video>
 		</div>
