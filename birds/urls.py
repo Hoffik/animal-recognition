@@ -60,4 +60,4 @@ urlpatterns = [
     path('', include(apps_urls)),
     path('accounts/', include(auth_urls)),
     path('rest_api/', include(rest_urls)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL)
