@@ -2,6 +2,10 @@
 
 Crowdsourcing application for both experts and laymen to recognize animal species from image, audio and video records.
 
+## Application link
+
+Application prototype available at [animal-recognition.herokuapp.com](https://animal-recognition.herokuapp.com)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
